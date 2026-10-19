@@ -8,24 +8,22 @@ const {
   logout,
   getProfile,
   updateProfile,
-  verifyEmail,
-  resendVerificationCode,
   getAllUsers,
   toggleBlockUser,
   forgotPassword,
   resetPassword,
   getUserStats,
+  getAddresses, saveAddress, deleteAddress
 } = require('../controllers/authController');
-
+const {
+  createTeamMember, getTeamMembers, updateTeamMemberRole, toggleTeamMemberStatus, updateAdminProfile
+} = require('../controllers/adminController');
 const authMiddleware = require('../middleware/authMiddleware');
-const admin = require('../middleware/adminMiddleware')
-const upload = require('../middleware/upload');
-const User = require('../models/User');
+const adminMiddleware = require('../middleware/adminMiddleware');
+const User = require('../models/User'); // (Agar upload ki wajah se yahan require kiya gaya tha aur ab kahin aur use nahi horaha toh ise bhi remove kar sakte hain, par main safety ke liye chhor raha hoon)
 
 // 🔐 Manual Auth Routes
 router.post('/signup', signup);
-router.post('/verify', verifyEmail);
-router.post('/resend', resendVerificationCode);
 router.post('/login', login);
 
 router.post("/forgot-password", forgotPassword);
@@ -36,34 +34,41 @@ router.get('/profile', authMiddleware, getProfile);
 router.put('/profile', authMiddleware, updateProfile);
 router.post('/logout', authMiddleware, logout);
 
-// 🔒 Upload Profile Image
-router.put(
-  '/upload-profile',
-  authMiddleware,
-  upload.single('profileImage'),
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.user._id);
-      if (!user) return res.status(404).json({ message: 'User not found' });
-
-      user.profileImage = req.file.filename;
-      await user.save();
-
-      res.json({
-        message: 'Profile image uploaded successfully',
-        imageUrl: `/uploads/profile/${user.profileImage}`,
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Upload failed' });
-    }
-  }
-);
+// ✅ Address Routes
+router.get('/addresses', authMiddleware, getAddresses);
+router.post('/addresses', authMiddleware, saveAddress);
+router.delete('/addresses/:id', authMiddleware, deleteAddress);
 
 // ✅ Admin-only Routes for User Management
-router.get('/all-users', admin, getAllUsers);
-router.put('/block/:id', admin, toggleBlockUser);
-// Example:
+router.get('/all-users', adminMiddleware, getAllUsers);
+router.put('/block/:id', adminMiddleware, toggleBlockUser);
+router.post(
+  '/admin/team-members',
+  adminMiddleware,
+  createTeamMember
+);
+
+router.get(
+  '/admin/team-members',
+  adminMiddleware,
+  getTeamMembers
+);
+router.put(
+  '/admin/team-members/:id/role',
+  adminMiddleware,
+  updateTeamMemberRole
+);
+router.put(
+  '/admin/team-members/:id/status',
+  adminMiddleware,
+  toggleTeamMemberStatus
+);
+router.put(
+  '/admin/profile',
+  adminMiddleware,
+  updateAdminProfile
+);
+// User Stats Route
 router.get('/stats', authMiddleware, getUserStats);
 
 // 🌐 Google OAuth Routes
@@ -73,7 +78,6 @@ router.get(
     scope: ['profile', 'email'],
     prompt: 'select_account',
     state: 'login',
-    // Forcefully redirect_uri yahan specify karein
     callbackURL: process.env.GOOGLE_CALLBACK_URL 
   })
 );
@@ -84,28 +88,16 @@ router.get(
     scope: ['profile', 'email'],
     prompt: 'consent',
     state: 'signup',
-    // Forcefully redirect_uri yahan specify karein
     callbackURL: process.env.GOOGLE_CALLBACK_URL 
   })
 );
 
-router.get(
-  '/google/signup',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-    prompt: 'consent',
-    state: 'signup',
-    // Forcefully redirect_uri yahan specify karein
-    callbackURL: process.env.GOOGLE_CALLBACK_URL 
-  })
-);
-
-// ✅ Updated Google Callback — Blocked users cannot log in
+// ✅ Updated Google Callback
 router.get(
   '/google/callback',
   passport.authenticate('google', {
     session: false,
-    failureRedirect: '/api/auth/google/failure',
+    failureRedirect: `${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?error=google_failed`,
   }),
   async (req, res) => {
     try {
@@ -114,28 +106,31 @@ router.get(
       // 🚫 Check if blocked
       if (user.isBlocked) {
         return res.redirect(
-          'http://localhost:3000/login?error=blocked_account'
+          `${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?error=blocked_account`
         );
       }
 
       // ✅ Generate JWT token
       const token = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
-        process.env.JWT_SECRET,
-        { expiresIn: '7d' }
-      );
-
-      res.redirect(`http://localhost:3000/login?token=${token}`);
+  {
+    id: user._id,
+    role: user.role,
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: '7d' }
+);
+      // ✅ Frontend par redirect karein (Localhost ya Firebase)
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?token=${token}`);
     } catch (err) {
       console.error('Google callback error:', err);
-      res.redirect('http://localhost:3000/login?error=server_error');
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?error=server_error`);
     }
   }
 );
 
 // ❌ Google failure
 router.get('/google/failure', (req, res) => {
-  res.redirect('http://localhost:3000/login?error=account_not_found');
+  res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?error=account_not_found`);
 });
 
 module.exports = router;

@@ -24,7 +24,7 @@ const notifySubscribers = async (product) => {
       : `${process.env.BASE_URL}${product.image}`;
 
     const mailOptions = {
-      from: `"Al Syed Tech" <${process.env.SMTP_EMAIL}>`,
+      from: `"TechnoZ" <${process.env.SMTP_EMAIL}>`,
       to: emails, // Note: For many subscribers, consider using 'bcc' instead of 'to' for privacy
       subject: `🆕 New Arrival: ${product.name} is now available!`,
       html: `
@@ -61,12 +61,12 @@ const notifySubscribers = async (product) => {
 
             <p style="font-size:14px; color:#718096; margin-top:40px; border-top:1px solid #edf2f7; padding-top:20px;">
               Happy Shopping,<br/>
-              <strong>Al Syed Tech Team</strong>
+              <strong>TechnoZ Team</strong>
             </p>
           </div>
 
           <div style="text-align:center; font-size:12px; color:#a0aec0; margin-top:15px;">
-            <p>© ${new Date().getFullYear()} Al Syed Tech. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} TechnoZ. All rights reserved.</p>
             <p>You are receiving this because you are subscribed to our newsletter.<br/>
             <a href="#" style="color:#a0aec0; text-decoration:underline;">Unsubscribe</a></p>
           </div>

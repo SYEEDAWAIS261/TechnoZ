@@ -23,7 +23,7 @@ router.get('/:token', async (req, res) => {
     res.send(`
       <div style="font-family: Arial; text-align:center; padding:50px;">
         <h2 style="color:green;">✅ You have successfully unsubscribed!</h2>
-        <p>You will no longer receive product updates or newsletters from <strong>Al Syed Tech</strong>.</p>
+        <p>You will no longer receive product updates or newsletters from <strong>TechnoZ</strong>.</p>
       </div>
     `);
   } catch (err) {

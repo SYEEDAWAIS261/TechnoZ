@@ -21,7 +21,7 @@ const getGlobalTestimonials = async (req, res) => {
     // 🔹 Get products with reviews
     const products = await Product.find(
       { "reviews.0": { $exists: true } },
-      { name: 1, category: 1, reviews: 1 }
+      { name: 1, category: 1, reviews: 1, rating: 1 }
     );
 
     // 🔹 Flatten reviews
@@ -31,7 +31,9 @@ const getGlobalTestimonials = async (req, res) => {
         .map(review => ({
           _id: review._id,
           name: review.name,
-          rating: review.rating,
+          rating: review.rating,                                    // ⚠️ yeh line wapas
+          ratings: review.ratings || { value: 0, durability: 0, delivery: 0 },
+          userImage: review.userImage || "",
           comment: review.comment,
           createdAt: review.createdAt,
           productName: product.name,

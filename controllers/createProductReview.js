@@ -3,9 +3,10 @@ const User = require("../models/User");
 
 exports.createProductReview = async (req, res) => {
   try {
-    const { rating, comment } = req.body;
+    const { rating, comment, ratings, pros, cons } = req.body;
     const productId = req.params.id;
     const userId = req.user._id;
+    
 
     // ✅ 1. Validate inputs
     if (!rating || rating < 1 || rating > 5)
@@ -24,29 +25,48 @@ exports.createProductReview = async (req, res) => {
 
     // ✅ 4. Check if already reviewed
     const alreadyReviewed = product.reviews.find(
-      (r) => r.user.toString() === userId.toString()
+      (r) => r.user?.toString() === userId.toString()
     );
     if (alreadyReviewed)
       return res.status(400).json({ message: "You have already reviewed this product" });
 
-    // ✅ 5. Construct full image path (fix)
+    // ✅ 5. Construct full image path
     const userImagePath = user.profileImage
       ? `/uploads/profile/${user.profileImage}`
       : "";
 
-    // ✅ 6. Create review
+    // ✅ 6. Sub-ratings parse karein (multer FormData mein string bhejta hai)
+    let subRatings = ratings;
+    if (typeof subRatings === "string") {
+      try { subRatings = JSON.parse(subRatings); } catch { subRatings = {}; }
+    }
+    subRatings = subRatings || {};
+
+    const clamp = (v) => {
+      const n = Number(v) || 0;
+      return n < 0 ? 0 : n > 5 ? 5 : n;
+    };
+
+    // ✅ 7. Create review
     const review = {
       name: user.username,
       rating: Number(rating),
-      comment,
+      comment: comment.trim(),
       user: userId,
       userImage: userImagePath,
+      ratings: {
+        value:      clamp(subRatings.value),
+        durability: clamp(subRatings.durability),
+        delivery:   clamp(subRatings.delivery),
+      },
+      pros: (pros || "").trim(),
+      cons: (cons || "").trim(),
     };
 
     product.reviews.push(review);
-    product.numReviews = product.reviews.length;
-    product.rating =
-      product.reviews.reduce((acc, item) => acc + item.rating, 0) / product.reviews.length;
+
+    // ✅ 8. Manual calculation ki jagah model ka method
+    product.recalculateRatings();
 
     await product.save();
 
@@ -55,6 +75,8 @@ exports.createProductReview = async (req, res) => {
       review,
       numReviews: product.numReviews,
       rating: product.rating,
+      ratingBreakdown: product.ratingBreakdown,
+      ratingDistribution: product.ratingDistribution,
     });
   } catch (error) {
     console.error("Error creating product review:", error);

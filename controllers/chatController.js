@@ -9,7 +9,7 @@ const sendAdminWhatsApp = async (details) => {
         await client.messages.create({
             from: 'whatsapp:+14155238886', // Twilio Sandbox Number
             to: process.env.ADMIN_WHATSAPP_NUMBER,  // Aapka Admin WhatsApp Number
-            body: `🚨 *Al Syed Booking Alert*\n\n*Customer Message:* ${details.customerMessage}\n*Status:* Visit Scheduled/Intent Detected\n\n📍 *Shop Location:* https://maps.app.goo.gl/YourActualLinkHere`
+            body: `🚨 *TechnoZ Booking Alert*\n\n*Customer Message:* ${details.customerMessage}\n*Status:* Visit Scheduled/Intent Detected\n\n📍 *Shop Location:* https://maps.app.goo.gl/YourActualLinkHere`
         });
         console.log("✅ Admin WhatsApp Alert Sent");
     } catch (err) {
@@ -19,36 +19,50 @@ const sendAdminWhatsApp = async (details) => {
 
     exports.handleAIChat = async (req, res) => {
 
-    // 1. Groq API Key .env se lein
-    const apiKey = process.env.GROQ_API_KEY; 
+    // 1. AI Gateway URL aur API Key .env se lein
+    const gatewayUrl = process.env.AI_GATEWAY_URL; 
+    const gatewayApiKey = process.env.GATEWAY_API_KEY; 
     const { message, history } = req.body;
 
     // AI ka reply check karne ke baad ye logic la/
 
-    if (!apiKey) {
-        return res.status(500).json({ reply: "Groq API Key missing in .env" });
+    if (!gatewayUrl) {
+        return res.status(500).json({ reply: "AI Gateway URL missing in .env" });
     }
 
     try {
-        // --- Database Logic (Same as before) ---
-        const cleanQuery = message.replace(/price|instock|available|check|show|is|the|not/gi, "").trim();
-        const searchKeywords = cleanQuery.split(" ").filter(word => word.length > 2);
+        // 1. Cleaner approach: Sirf aam conversational stop-words hatayein, product terms nahi!
+        const stopWordsRegex = /\b(price|instock|available|check|show|is|the|not|hey|hi|hello|salam|assalam|bhai|kya|haal|hai|please|kan|mujhe|batao)\b/gi;
+        const cleanQuery = message.replace(stopWordsRegex, "").trim();
+        const searchKeywords = cleanQuery.split(" ").filter(word => word && word.length > 1);
 
-        const products = await Product.find({ 
-            quantity: { $gt: 0 },
-            $or: searchKeywords.length > 0 ? searchKeywords.map(word => ({
+        // Hamesha quantity > 0 wale products target karein
+        const queryFilter = { quantity: { $gt: 0 } };
+        
+        if (searchKeywords.length > 0) {
+            queryFilter.$or = searchKeywords.map(word => ({
                 $or: [
                     { name: { $regex: word, $options: "i" } },
-                    { brand: { $regex: word, $options: "i" } }
+                    { brand: { $regex: word, $options: "i" } },
+                    { category: { $regex: word, $options: "i" } }
                 ]
-            })) : [{}]
-        })
-        .select("name brand price discountPrice discountPercentage onSale variations quantity -_id")
-        .limit(5);
+            }));
+        }
+
+        // Products fetch karein (Agar specific keyword match na ho, toh latest 5 available products utha lein taake out of stock na bole)
+        let products = await Product.find(queryFilter)
+            .select("name brand price discountPrice discountPercentage onSale variations quantity -_id")
+            .limit(5);
+
+        // AGAR SPECIFIC KEYWORD PAR KOI PRODUCT NA MILE, TOH STORE KE GENERAL AVAILABLE LAPTOPS DIKHAYEIN
+        if (products.length === 0 && searchKeywords.length > 0) {
+            products = await Product.find({ quantity: { $gt: 0 } })
+                .select("name brand price discountPrice discountPercentage onSale variations quantity -_id")
+                .limit(5);
+        }
 
        const stockContext = products.length > 0 
   ? products.map(p => {
-      // 1. Calculate Discount Price if it's null but percentage exists
       let finalSalePrice = null;
 
       if (p.discountPrice && p.discountPrice > 0) {
@@ -57,7 +71,6 @@ const sendAdminWhatsApp = async (details) => {
         finalSalePrice = p.price - (p.price * (p.discountPercentage / 100));
       }
 
-      // 🟢 NEW: Variations Data mapping (Har variation ki FINAL price calculate karein)
       const variationsData = p.variations && p.variations.length > 0 
         ? p.variations.map(v => {
             const vBase = finalSalePrice || p.price;
@@ -80,36 +93,25 @@ ${variationsData}
 
 RULES:
 - Use ONLY the above numbers.
-- IMPORTANT: When mentioning variation prices, explicitly state that the price is the "Total Amount" or "All-inclusive" (Product + Upgrade).
-If Available_Variations_With_Total_Prices is NOT "NONE", you MUST acknowledge and offer these specific upgrades to the customer.
-- For variations, use the specific prices listed in Available_Variations_With_Total_Prices.
-Use the total prices calculated in the variations list for clear communication.
-- Never say "we don't have variations" if they are listed above.
-- We ONLY sell Laptops. Strictly decline TVs or other electronics.
-- NEVER invent or estimate upgrade costs (e.g., do not say "+$150 for 1TB" if not explicitly calculated above).
-- If SalePrice is NONE, use StandardPrice as final price.
-- Never estimate or infer stock.
-- If UnitsAvailable >= 5, DO NOT use scarcity language.
-- If UnitsAvailable < 5, you MAY use scarcity language.
-- We ONLY sell Laptops. If asked for TVs or other items, decline.
+- We ONLY sell Laptops.
 `;
     }).join("\n\n")
-  : "CURRENT STATUS: All items are currently out of stock. We only deal in premium Laptops.";
-        // --- Groq API Implementation ---
+  : "CURRENT STATUS: Inventory is temporarily updating. Reassure the client warmly and invite them to share their exact requirements or check via WhatsApp (+92 334-9094849).";
+        // --- AI Gateway Implementation ---
         
-        // History ko Groq format (role: assistant/user) mein convert karein
+        // History ko format (role: assistant/user) mein convert karein
         const formattedHistory = history ? history.map(h => ({
             role: h.role === "model" ? "assistant" : "user",
             content: h.parts[0].text
         })) : [];
 
-        const response = await axios.post("https://api.groq.com/openai/v1/chat/completions", {
+        const response = await axios.post(gatewayUrl, {
             model: "llama-3.3-70b-versatile", // Super fast and smart model
             messages: [
 {
   role: "system",
   content: `
-You are “Al Syed Tech Expert”, the Senior Sales Concierge at Al Syed Tech, UAE.
+You are “TechnoZ Expert”, the Senior Sales Concierge at TechnoZ, UAE.
 You represent a modern luxury technology retailer with absolute authority, calm confidence, and commercial precision.
 Your communication mirrors elite in-store consultants—not customer support.
 
@@ -119,6 +121,12 @@ ${stockContext}
 ────────────────────────────
 COMMUNICATION STANDARD
 ────────────────────────────
+────────────────────────────
+GREETINGS & CASUAL DIALOGUE RULE
+────────────────────────────
+- If the user says a casual greeting (e.g., "Hey", "Salam", "Hi", "Bhai kaise ho?"), respond warmly and naturally like a real human shop consultant before jumping into inventory. 
+- Example: "Walaikum Assalam! Sab theek thak, aap sunayein? Bataiye, aaj kis tarah ka laptop dekh rahe hain aap?"
+- Do NOT sound like a rigid script on casual chats. Match the user's vibe first, then gently guide them towards our elite laptop collection.
 
 Immediate conclusion required.
 Deliver the core decision within the first 5 words.
@@ -173,7 +181,7 @@ Current inventory is critical—only [X] units remain for Sharjah/Dubai delivery
 - For High Stock (>=5): End with a "Consultative Hook" like: "Would you like a side-by-side spec comparison with our other premium models?"
 
 Reinforce confidence briefly:
-Al Syed Certified Grade A with a 7-day comprehensive replacement guarantee.
+TechnoZ Certified Grade A with a 7-day comprehensive replacement guarantee.
 
 No technical over-explanations.
 Confidence replaces excess detail.
@@ -195,12 +203,12 @@ STRICT INVENTORY RULE (CORE MANDATE)
 ────────────────────────────
 1. ZERO SPECULATION: Never invent specifications (RAM, SSD, Processor) that are not explicitly listed in the PRODUCT_RECORD.
 2. VARIATION CHECK: If Available_Variations_With_Total_Prices is "NONE", you must NOT mention any upgrades or configurations. 
-3. NO EXTERNAL DATA: Do not use your internal knowledge about brands (like Dell or HP) to guess specs. If it's not in the context, it doesn't exist at Al Syed.
+3. NO EXTERNAL DATA: Do not use your internal knowledge about brands (like Dell or HP) to guess specs. If it's not in the context, it doesn't exist at TECHNO Z.
 4. ABSOLUTE TRUTH: If a user asks for "i7" or "16GB" and the record only shows "i5" or "8GB", you must say: "We currently only have the standard configuration available for this specific unit."
 5. THE "NONE" RULE: If variations are NONE, and you mention any extra specs, you are violating protocol.
 1. You ONLY sell Laptops. We do NOT have TVs, Tablets, Phones, or any other electronics.
 2. If a user asks for a TV, Fridge, or anything else, you must say:
-   "My expertise is strictly reserved for Al Syed’s premium laptop inventory. We do not stock televisions or other appliances."
+   "My expertise is strictly reserved for TechnoZ premium laptop inventory. We do not stock televisions or other appliances."
 3. Never "check the back room" or "double-check physical stock" for non-laptop items. 
 4. If a product is NOT in the [INVENTORY CONTEXT] provided above, it DOES NOT exist. 
 5. Do not invent model names (like Samsung QN90A) if they are not in the list.
@@ -282,7 +290,7 @@ ELITE LOGICAL REASONING & HUMAN INTUITION
 - User ko aisi baat batayein jo aam taur par koi nahi batata: "Most people overlook the hinge tension or the keyboard's tactile feedback—on this specific Grade-A batch, both are pristine."
 
 5. HANDLING SKEPTICISM (Trust over Defense):
-- Agar user shak kare: "I appreciate your caution. In the pre-owned market, trust is the only currency. That is why Al Syed provides the full replacement guarantee—we take the risk, so you don't have to."
+- Agar user shak kare: "I appreciate your caution. In the pre-owned market, trust is the only currency. That is why TechnoZ provides the full replacement guarantee—we take the risk, so you don't have to."
 
 6. THE "SOFT-LOCK" TECHNIQUE (Human Sales Closing):
 - Deal ko finish karne ke liye aik soft sawal karein: "I have the perfect unit in front of me. Shall I keep it aside for your inspection today, or would you like me to prepare it for Dubai shipping right now?"
@@ -308,7 +316,7 @@ LOYALTY DETECTION & RELATIONSHIP BUILDING
 - If the user previously asked for a MacBook but didn't buy, and now asks again: "I remember you were looking at the M2 series earlier. Actually, a pristine M3 Max just arrived that I believe aligns even better with your requirements."
 
 3. THE "VIP" TREATMENT:
-- Treat returning users as 'Al Syed Insiders'. Use phrases like: "Since you’ve consulted with us before, I’m prioritizing the most exclusive units in our inventory for your inspection."
+- Treat returning users as 'TechnoZ Insiders'. Use phrases like: "Since you’ve consulted with us before, I’m prioritizing the most exclusive units in our inventory for your inspection."
 
 4. CONTEXTUAL RECALL:
 - Agar user ne pehle apni profession (editing, coding, business) batai thi, toh usay yaad rakhein: "Knowing your demand for high-speed rendering from our last conversation, I’ve filtered only the 32GB RAM variants for you."
@@ -334,10 +342,32 @@ THE "HUMAN" INTUITION (ADVANCED)
             max_tokens: 1024
         }, {
             headers: {
-                "Authorization": `Bearer ${apiKey}`,
+                "Authorization": `Bearer ${gatewayApiKey}`,
                 "Content-Type": "application/json"
             }
         });
+
+        /*
+        // --- OLD GROQ API IMPLEMENTATION (COMMENTED OUT) ---
+        // const response = await axios.post("https://api.groq.com/openai/v1/chat/completions", {
+        //     model: "llama-3.3-70b-versatile", 
+        //     messages: [
+        //         {
+        //             role: "system",
+        //             content: `...`
+        //         },
+        //         ...formattedHistory,
+        //         { role: "user", content: message }
+        //     ],
+        //     temperature: 0.2, 
+        //     max_tokens: 1024
+        // }, {
+        //     headers: {
+        //         "Authorization": `Bearer ${apiKey}`,
+        //         "Content-Type": "application/json"
+        //     }
+        // });
+        */
 
   // --- 3. Final Response & SMART Admin Alert Logic ---
 if (response.data && response.data.choices) {
@@ -354,26 +384,38 @@ if (response.data && response.data.choices) {
     const userWantsToCancel = ["cancel", "cancellation", "nahi aa sakta", "not coming", "postpone", "remove appointment"].some(word => lowerMsg.includes(word));
     const aiCancelled = lowerReply.includes("cancel") || lowerReply.includes("removed") || lowerReply.includes("deleted");
 
-    // 1. WhatsApp for CONFIRMED Booking
-    if (userWantsToBook && (isConfirming || aiConfirmed)) {
-        sendAdminWhatsApp({ 
-            customerMessage: `✅ *Appointment Confirmed*\nUser: ${message}` 
-        });
-    }
+   console.log("📊 Intent Flags -> userWantsToBook:", userWantsToBook, "| isConfirming:", isConfirming, "| aiConfirmed:", aiConfirmed);
 
-    // 2. WhatsApp for CANCELLATION (Naya Logic)
-    if (userWantsToCancel && aiCancelled) {
-        sendAdminWhatsApp({ 
-            customerMessage: `❌ *Appointment Cancelled*\nReason: ${message}` 
-        });
-    }
+            if (userWantsToBook && (isConfirming || aiConfirmed)) {
+                console.log("📌 Triggering Booking WhatsApp Alert...");
+                await sendAdminWhatsApp({ 
+                    customerMessage: `✅ *Appointment Confirmed*\nUser: ${message}` 
+                });
+            }
 
-    // DB Log & Send response
-    await Chat.create({ userMessage: message, aiResponse: aiReply });
-    return res.status(200).json({ reply: aiReply });
-}
+            if (userWantsToCancel && aiCancelled) {
+                console.log("📌 Triggering Cancellation WhatsApp Alert...");
+                await sendAdminWhatsApp({ 
+                    customerMessage: `❌ *Appointment Cancelled*\nReason: ${message}` 
+                });
+            }
+
+            console.log("💾 Saving chat interaction to Database...");
+            await Chat.create({ userMessage: message, aiResponse: aiReply });
+            console.log("✅ Chat Saved Successfully");
+
+            return res.status(200).json({ reply: aiReply });
+        } else {
+            console.warn("⚠️ Unexpected AI Gateway response structure:", response.data);
+            return res.status(500).json({ reply: "Received unexpected response from AI service." });
+        }
+
     } catch (err) {
-        console.error('❌ Error:', err.message);
+        console.error('❌ Critical Error in handleAIChat:', {
+            message: err.message,
+            stack: err.stack,
+            responseError: err.response ? err.response.data : null
+        });
         res.status(500).json({ reply: "Service temporarily busy." });
     }
 };

@@ -16,24 +16,17 @@ const userSchema = new mongoose.Schema({
     },
   },
   googleId: { type: String, unique: true, sparse: true },
-  isAdmin: { type: Boolean, default: false },
-  isVerified: { type: Boolean, default: false },
-  // isOnline: { type: Boolean, default: false },
-  // lastSeen: { type: Date, default: null },
+role: {
+  type: String,
+  enum: ["customer", "editor", "administrator"],
+  default: "customer",
+  required: true,
+},
 
   isBlocked: { type: Boolean, default: false },
-  profileImage: {
-    type: String,
-    default: '',
-  },
-
   // ✅ Add this line
   isLoggedIn: { type: Boolean, default: false },
 
-  // ✅ Email verification fields
-  verificationCode: String,
-  verificationCodeExpires: Date,
-  
   // 🔑 Forgot password fields
 resetPasswordToken: {
   type: String,
@@ -60,6 +53,28 @@ wishlist: [
 ],
 phone: { type: String, default: '' },
 
+// ✅ ADD THIS ADDRESSES ARRAY
+  addresses: [
+    {
+      fullName: { type: String, required: true },
+      phone: { type: String, required: true },
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, default: "" },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
+    addressType: {
+  type: String,
+  enum: ["shipping", "billing"],
+  default: "shipping"
+},
+
+isDefault: {
+  type: Boolean,
+  default: false
+}
+    }
+  ]
 });
 
 module.exports = mongoose.model('User', userSchema);

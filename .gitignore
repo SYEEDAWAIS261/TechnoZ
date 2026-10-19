@@ -1,4 +1,20 @@
-/node_modules
+# dependencies
+node_modules/
+
+# secrets
 .env
-/uploads
+.env.*
+!.env.example
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# uploaded product images (server par alag rakhein)
+uploads/
+
+# OS / editor
 .DS_Store
+Thumbs.db
+.vscode/

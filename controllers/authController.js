@@ -9,7 +9,7 @@ const Wishlist = require('../models/Wishlist');
 // POST /signup
 exports.signup = async (req, res) => {
   try {
-    const { username, email, password, isAdmin } = req.body;
+  const { username, email, password } = req.body;
 
     // 1. Dono Email aur Username check karein (Duplicate prevention)
     const existing = await User.findOne({ $or: [{ email }, { username }] });
@@ -19,39 +19,24 @@ exports.signup = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = new Date(Date.now() + 15 * 60 * 1000);
+    // const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    // const expiry = new Date(Date.now() + 15 * 60 * 1000);
 
     const user = new User({
       username,
       email,
       password: hashed,
-      isAdmin: isAdmin || false,
-      verificationCode,
-      verificationCodeExpires: expiry,
-      isVerified: false,
+      role: "customer",
+      // verificationCode,
+      // verificationCodeExpires: expiry,
+      // isVerified: false,
     });
 
     await user.save();
 
-    // 2. Email ko Try-Catch mein rakhein taaki main process fail na ho
-    try {
-      await sendEmail(
-        email,
-        'Verify your Email - Awais E-Commerce',
-        `<h3>Hello ${username},</h3>
-         <p>Your verification code is: <strong>${verificationCode}</strong></p>`
-      );
-    } catch (emailErr) {
-      console.error('Email sending failed:', emailErr);
-      // User ko register hone dein, unhe batayein code resend karein agar nahi mila
-      return res.status(201).json({ 
-        message: 'Account created, but failed to send email. Please click resend code.',
-        email: email 
-      });
-    }
+   
 
-    res.status(201).json({ message: 'User registered. Verification code sent to email.' });
+   res.status(201).json({ message: 'Account created successfully!' });
   } catch (err) {
     console.error('Signup error:', err);
     res.status(500).json({ message: 'Server error during signup. Please try again.' });
@@ -121,18 +106,20 @@ exports.resendVerificationCode = async (req, res) => {
 };
 
 // POST /login
+// POST /login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    // 🔍 Case insensitive email search
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // 🚫 Block check
     if (user.isBlocked) {
-      return res.status(403).json({ message: "Your account has been blocked by Al Syed Tech Team. Please contact support." });
+      return res.status(403).json({ message: "Your account has been blocked by TechnoZ Team. Please contact support." });
     }
 
     // 🔍 Password check (skip if Google login user)
@@ -145,15 +132,12 @@ exports.login = async (req, res) => {
       if (!isPasswordValid) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
-    } else {
-      // For Google login users, password should not be checked
-      console.log("Google user login — password check skipped.");
     }
 
-    // ✅ Email verification check
-    if (!user.isVerified) {
-      return res.status(401).json({ message: "Please verify your email before logging in." });
-    }
+    // ✅ FIXED: Email verification check (Admin & Unverified Skip)
+    // if (!user.isVerified && !user.isAdmin) {
+    //   return res.status(401).json({ message: "Please verify your email before logging in." });
+    // }
 
     // ✅ Update user status
     user.isLoggedIn = true;
@@ -161,18 +145,15 @@ exports.login = async (req, res) => {
     user.lastSeen = new Date();
     await user.save();
 
-    // 🔔 Emit socket event if needed
-    // const io = req.app.get("io");
-    // if (io) {
-    //   io.emit("userStatusChange", { userId: user._id, isOnline: true });
-    // }
-
     // 🎟 Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+   const token = jwt.sign(
+  {
+    id: user._id,
+    role: user.role,
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: "7d" }
+);
 
     res.json({
       message: "Login successful",
@@ -181,7 +162,7 @@ exports.login = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        isAdmin: user.isAdmin,
+        role: user.role,
         isOnline: user.isOnline,
       },
     });
@@ -220,7 +201,7 @@ exports.forgotPassword = async (req, res) => {
 
     await sendEmail(
       user.email,
-      "Reset Your Password - Al Syed Tech",
+      "Reset Your Password - TechnoZ",
       `
         <h3>Hello ${user.username},</h3>
         <p>You requested a password reset.</p>
@@ -308,9 +289,9 @@ exports.getProfile = async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-      isAdmin: user.isAdmin,
-      isVerified: user.isVerified,
-      profileImage: user.profileImage ? `/uploads/profile/${user.profileImage}` : '',
+      role: user.role,
+      // isVerified: user.isVerified,
+      // profileImage: user.profileImage ? `/uploads/profile/${user.profileImage}` : '',
     });
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch profile' });
@@ -336,8 +317,8 @@ exports.updateProfile = async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-      isAdmin: user.isAdmin,
-      profileImage: user.profileImage ? `/uploads/profile/${user.profileImage}` : '',
+      role: user.role,
+      // profileImage: user.profileImage ? `/uploads/profile/${user.profileImage}` : '',
     });
   } catch (err) {
     res.status(500).json({ message: 'Failed to update profile' });
@@ -347,7 +328,9 @@ exports.updateProfile = async (req, res) => {
 // ✅ GET /all-users
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find({ role: "customer" })
+      .select("-password");
+
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch users' });
@@ -359,7 +342,11 @@ exports.toggleBlockUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
-
+if (user.role !== "customer") {
+  return res.status(403).json({
+    message: "Only customer accounts can be blocked or unblocked here.",
+  });
+}
     user.isBlocked = !user.isBlocked;
 
     // 🚫 If blocked, mark them as logged out
@@ -410,5 +397,115 @@ exports.getUserStats = async (req, res) => {
       message: "Error fetching stats", 
       error: error.message 
     }); 
+  }
+};
+
+// ✅ Get User Addresses
+exports.getAddresses = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('addresses');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user.addresses);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// ✅ Add or Update Address
+exports.saveAddress = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const {
+      addressId,
+      fullName,
+      phone,
+      street,
+      city,
+      state,
+      postalCode,
+      country,
+      addressType,
+      isDefault
+    } = req.body;
+
+    // Address type must be shipping or billing
+    const type = addressType === "billing" ? "billing" : "shipping";
+
+    // If this address is being made default,
+    // remove default ONLY from addresses of the same type
+    if (isDefault) {
+      user.addresses.forEach((addr) => {
+        if ((addr.addressType || "shipping") === type) {
+          addr.isDefault = false;
+        }
+      });
+    }
+
+    if (addressId) {
+      // Update existing address
+      const addrIndex = user.addresses.findIndex(
+        (a) => a._id.toString() === addressId
+      );
+
+      if (addrIndex === -1) {
+        return res.status(404).json({
+          message: 'Address not found'
+        });
+      }
+
+      user.addresses[addrIndex] = {
+        ...user.addresses[addrIndex].toObject(),
+        fullName,
+        phone,
+        street,
+        city,
+        state,
+        postalCode,
+        country,
+        addressType: type,
+        isDefault: Boolean(isDefault)
+      };
+
+    } else {
+      // Add new address
+      user.addresses.push({
+        fullName,
+        phone,
+        street,
+        city,
+        state,
+        postalCode,
+        country,
+        addressType: type,
+        isDefault: Boolean(isDefault)
+      });
+    }
+
+    await user.save();
+
+    res.json(user.addresses);
+
+  } catch (err) {
+    console.error('Save address error:', err);
+    res.status(500).json({
+      message: 'Server error'
+    });
+  }
+};
+// ✅ Delete Address
+exports.deleteAddress = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.addresses = user.addresses.filter(addr => addr._id.toString() !== req.params.id);
+    await user.save();
+    res.json(user.addresses);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 };
