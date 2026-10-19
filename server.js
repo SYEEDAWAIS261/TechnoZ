@@ -47,9 +47,13 @@ const server = http.createServer(app);
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://ai-ecommerce-4a2c6.web.app",
+  "https://technoz-a4377.web.app",
+  "https://technoz-a4377.firebaseapp.com",
   process.env.FRONTEND_URL,
-].filter(Boolean);
+  process.env.CLIENT_URL,
+]
+  .filter(Boolean)
+  .map((u) => u.trim().replace(/\/+$/, "")); // aakhir ka "/" hata do, warna match fail hota hai
 
 app.use(cors({
   origin: allowedOrigins,
@@ -58,6 +62,15 @@ app.use(cors({
 }));
 app.use(express.json());
 app.set("trust proxy", 1);
+
+// API data hamesha fresh: browser/proxy cache na kare (304 + khaali body ka masla)
+app.set("etag", false);
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Vary", "Authorization");
+  next();
+});
 app.use(passport.initialize());
 
 // Serve static uploads folder
@@ -93,7 +106,7 @@ app.use((err, req, res, next) => {
 });
 // Start Server
 // Real-time: naya order aane par admin panel ko signal
-const io = new Server(server, { cors: { origin: allowedOrigins } });
+const io = new Server(server, { cors: { origin: allowedOrigins, credentials: true } });
 
 // Sirf admin/editor connect ho sakein
 io.use((socket, next) => {
