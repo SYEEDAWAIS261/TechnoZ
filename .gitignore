@@ -12,7 +12,9 @@ logs/
 npm-debug.log*
 
 # uploaded product images (server par alag rakhein)
-uploads/
+   uploads/*
+   !uploads/media/
+   uploads/media/*.tmp
 
 # OS / editor
 .DS_Store
