@@ -22,8 +22,12 @@ if (user.isBlocked) {
 }
     req.user = user;
     next();
-  } catch (error) {
-    return res.status(401).json({ message: "Invalid token" });
+   } catch (error) {
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    console.error("Auth middleware error:", error);
+    return res.status(500).json({ message: "Authentication server error." });
   }
 };
 
