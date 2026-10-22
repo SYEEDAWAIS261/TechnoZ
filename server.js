@@ -37,6 +37,8 @@ const dealRoutes = require('./routes/dealRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const adminSettingsRoutes = require('./routes/adminSettingsRoutes');
 const mediaRoutes = require('./routes/mediaRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const compareRoutes = require('./routes/compareRoutes');
 require('./config/passport'); // Google strategy
 
 // Initialize app
@@ -98,6 +100,8 @@ app.use('/api/articles', articleRoutes);
 app.use('/sitemap.xml', sitemapRoutes);
 app.use('/api/deals', dealRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/compare', compareRoutes);
 // app.use('/sitemap.xml', require('./routes/sitemapRoutes'));
 // ⚙️ Global Error Handler (optional, but useful)
 app.use((err, req, res, next) => {
