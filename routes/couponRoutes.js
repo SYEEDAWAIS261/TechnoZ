@@ -1,6 +1,17 @@
 const express = require("express");
+const { rateLimit } = require("express-rate-limit");
 
 const router = express.Router();
+const authMiddleware = require("../middleware/authMiddleware");
+
+// Coupon codes ka andaza lagane (brute force) se bachao: 1 minute mein 10 koshishein
+const couponLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { message: "Too many coupon attempts. Please wait a minute and try again." },
+});
 
 const {
   createCoupon,
@@ -56,6 +67,6 @@ router.delete(
 );
 
 // Customer: Validate / Apply Coupon
-router.post("/validate", validateCoupon);
+router.post("/validate", authMiddleware, couponLimiter, validateCoupon);
 
 module.exports = router;

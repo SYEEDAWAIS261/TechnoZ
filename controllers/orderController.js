@@ -1,7 +1,7 @@
 // controllers/orderController.js  (purani file ki jagah poori paste karein)
 const Order = require('../models/Order');
-const Coupon = require('../models/Coupon');
-const CouponUsage = require('../models/CouponUsage');
+const { computeCouponDiscount, claimCouponUsage, releaseCouponUsage } = require('../utils/couponHelper');
+const { round2 } = require('../utils/pricing');
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
@@ -56,110 +56,37 @@ const { shippingAddress, billingAddress, shippingMethod } = req.body;
 
 if (built.error) return res.status(400).json({ message: built.error });
 
-// Coupon discount
-let couponCode = null;
-let couponDiscount = 0;
-
-if (req.body.couponCode) {
-  const user = await User.findById(req.user.id);
-
-  if (!user?.email) {
-    return res.status(400).json({
-      message: "User email is required to apply coupon.",
+    // Coupon: server par, DB cart ki prices se (frontend ki koi value nahi)
+    const couponResult = await computeCouponDiscount({
+      code: req.body.couponCode,
+      userId: req.user.id,
+      items: built.items,
     });
-  }
+    if (couponResult.error) return res.status(400).json({ message: couponResult.error });
+    const { couponCode, couponDiscount } = couponResult;
 
-  couponCode = req.body.couponCode.trim().toUpperCase();
-
-  const coupon = await Coupon.findOne({
-    code: couponCode,
-  });
-
-  if (!coupon) {
-    return res.status(400).json({
-      message: "Invalid coupon code.",
-    });
-  }
-
-  if (!coupon.isActive) {
-    return res.status(400).json({
-      message: "This coupon is inactive.",
-    });
-  }
-
-  if (new Date(coupon.expiryDate) <= new Date()) {
-    return res.status(400).json({
-      message: "This coupon has expired.",
-    });
-  }
-
-  const usage = await CouponUsage.findOne({
-    coupon: coupon._id,
-    email: user.email.trim().toLowerCase(),
-  });
-
-  const currentUsageCount = usage?.usageCount || 0;
-
-  if (currentUsageCount >= coupon.usageLimitPerEmail) {
-    return res.status(400).json({
-      message: "You have reached the usage limit for this coupon.",
-    });
-  }
-
-  // Check eligible products using SERVER-SIDE cart prices
-  let eligibleSubtotal = 0;
-
-  for (const item of built.items) {
-    const isEligible =
-      coupon.applicableProducts.length === 0 ||
-      coupon.applicableProducts.some(
-        (id) => String(id) === String(item.productId)
-      );
-
-    if (isEligible) {
-      eligibleSubtotal +=
-        Number(item.priceAtOrder) * Number(item.quantity);
-    }
-  }
-
-  eligibleSubtotal = Number(eligibleSubtotal.toFixed(2));
-
-  if (eligibleSubtotal <= 0) {
-    return res.status(400).json({
-      message: "This coupon does not apply to the products in your cart.",
-    });
-  }
-
-  if (coupon.discountType === "percentage") {
-    couponDiscount =
-      eligibleSubtotal * (coupon.discountValue / 100);
-  } else {
-    couponDiscount = coupon.discountValue;
-  }
-
-  couponDiscount = Math.min(couponDiscount, eligibleSubtotal);
-  couponDiscount = Number(couponDiscount.toFixed(2));
-}
+    // Coupon ka istemal pakka (atomic). Do orders ek saath aayein to sirf ek ko milega
+    const claim = await claimCouponUsage({ code: couponCode, userId: req.user.id });
+    if (!claim.ok) return res.status(400).json({ message: claim.error });
 
     // 2. Stock atomic tareeqe se kam karein
     const reserved = await reserveStock(built.items);
-    if (!reserved.ok) return res.status(400).json({ message: reserved.error });
+    if (!reserved.ok) {
+      await releaseCouponUsage({ code: couponCode, userId: req.user.id });
+      return res.status(400).json({ message: reserved.error });
+    }
 
-    // 3. Order save karein. Fail ho to stock wapas
+       // 3. Order save karein. Fail ho to stock aur coupon dono wapas
+    const finalSubtotal = round2(built.subtotal - couponDiscount);
     let order;
     try {
       order = new Order({
         userId: req.user.id,
         products: built.items.map(({ variationId, ...rest }) => rest),
-        subtotal: built.subtotal - couponDiscount,
-total: Number(
-  (
-    (built.subtotal - couponDiscount) +
-    built.shippingCost
-  ).toFixed(2)
-),
-couponCode,
-couponDiscount,
+        subtotal: finalSubtotal,
+        total: round2(finalSubtotal + built.shippingCost),
+        couponCode,
+        couponDiscount,
         paymentMethod,
         shippingAddress,
         billingAddress,
@@ -169,34 +96,9 @@ couponDiscount,
         trackingId: "ORD-" + crypto.randomBytes(4).toString("hex").toUpperCase(),
       });
       await order.save();
-   // Record coupon usage after successful order
-if (couponCode) {
-  const user = await User.findById(req.user.id);
-
-  if (user?.email) {
-    const coupon = await Coupon.findOne({
-      code: couponCode,
-    });
-
-    if (coupon) {
-      await CouponUsage.findOneAndUpdate(
-        {
-          coupon: coupon._id,
-          email: user.email.trim().toLowerCase(),
-        },
-        {
-          $inc: { usageCount: 1 },
-        },
-        {
-          upsert: true,
-          new: true,
-        }
-      );
-    }
-  }
-}
     } catch (saveErr) {
       await releaseStock(reserved.done);
+      await releaseCouponUsage({ code: couponCode, userId: req.user.id }).catch(() => {});
       throw saveErr;
     }
 
@@ -422,7 +324,10 @@ exports.updateOrderStatus = async (req, res) => {
     }
 
     // Issue 1: admin cancel kare to bhi stock wapas
-    if (status === "Cancelled") await releaseStock(toRestockItems(order));
+    if (status === "Cancelled") {
+      await releaseStock(toRestockItems(order));
+      await releaseCouponUsage({ code: order.couponCode, userId: order.userId }).catch(() => {});
+    }
 
     res.json({ message: "Order status updated", order: updatedOrder });
   } catch (err) {
@@ -847,10 +752,16 @@ exports.downloadInvoice = async (req, res) => {
 
     doc.font('Helvetica-Bold').fontSize(10).fillColor('#000');
 
+    const couponOff = Number(order.couponDiscount) || 0;
     doc.text('Subtotal:', labelX, totalY);
-    doc.text(`AED ${subTotalSaved.toFixed(2)}`, totalValueX, totalY, { align: 'right', width: 110 });
+    doc.text(`AED ${(subTotalSaved + couponOff).toFixed(2)}`, totalValueX, totalY, { align: 'right', width: 110 });
     totalY += 16;
 
+    if (couponOff > 0) {
+      doc.fillColor('#198754').text('Coupon:', labelX, totalY);
+      doc.text(`- AED ${couponOff.toFixed(2)}`, totalValueX, totalY, { align: 'right', width: 110 });
+      doc.fillColor('#000');
+    }
     totalY += 16;
     doc.text('Shipping:', labelX, totalY);
     doc.text(`AED ${shipping.toFixed(2)}`, totalValueX, totalY, { align: 'right', width: 110 });
@@ -1016,6 +927,7 @@ exports.cancelOrder = async (req, res) => {
 
     // Stock wapas (variation id sirf tab jab wo asli ObjectId ho, purane orders mein 'base' ho sakta hai)
     await releaseStock(toRestockItems(order));
+    await releaseCouponUsage({ code: order.couponCode, userId: order.userId }).catch(() => {});
     res.json({ message: "Order cancelled successfully", order: cancelled });
     req.app.get("io")?.emit("order:new"); // Admin panel ko signal
   } catch (error) {

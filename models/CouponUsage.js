@@ -30,5 +30,5 @@ couponUsageSchema.index(
   { coupon: 1, email: 1 },
   { unique: true }
 );
-
+couponUsageSchema.index({ coupon: 1, email: 1 }, { unique: true });
 module.exports = mongoose.model("CouponUsage", couponUsageSchema);

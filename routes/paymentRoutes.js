@@ -14,7 +14,7 @@ const {
   releaseStock,
   validateShippingAddress,
 } = require("../utils/orderBuilder");
-const { computeCouponDiscount, recordCouponUsage } = require("../utils/couponHelper");
+const { computeCouponDiscount, claimCouponUsage, releaseCouponUsage } = require("../utils/couponHelper");
 
 const round2 = (n) => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 
@@ -195,9 +195,27 @@ router.post("/confirm", auth, async (req, res) => {
       });
     }
 
-    // 5. Stock atomic kam karein. Khatam ho chuka ho to paisa wapas
+    // 5a. Coupon ka istemal pakka. Isi coupon se doosra order pehle ho chuka ho to paisa wapas
+    const claim = await claimCouponUsage({ code: couponCode, userId: session.metadata.userId });
+    if (!claim.ok) {
+      let refunded = false;
+      try {
+        await stripe.refunds.create({ payment_intent: session.payment_intent });
+        refunded = true;
+      } catch (refundErr) {
+        console.error("❌ REFUND FAILED, refund manually:", sessionId, refundErr.message);
+      }
+      return res.status(409).json({
+        error: refunded
+          ? `${claim.error} Your payment has been refunded.`
+          : `${claim.error} Contact support with reference ${sessionId}.`,
+      });
+    }
+
+    // 5b. Stock atomic kam karein. Khatam ho chuka ho to paisa wapas
     const reserved = await reserveStock(built.items);
     if (!reserved.ok) {
+      await releaseCouponUsage({ code: couponCode, userId: session.metadata.userId }).catch(() => {});
       try {
         await stripe.refunds.create({ payment_intent: session.payment_intent });
       } catch (refundErr) {
@@ -233,6 +251,7 @@ router.post("/confirm", auth, async (req, res) => {
       await order.save();
     } catch (dbErr) {
       await releaseStock(reserved.done);
+      await releaseCouponUsage({ code: couponCode, userId: session.metadata.userId }).catch(() => {});
 
       if (dbErr.code === 11000) {
         const duplicateOrder = await Order.findOne({ stripeSessionId: session.id });

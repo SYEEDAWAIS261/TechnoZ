@@ -1,6 +1,8 @@
 const Coupon = require("../models/Coupon");
 const CouponUsage = require("../models/CouponUsage");
 // Create Coupon
+const { loadPricedCart, computeCouponDiscount } = require("../utils/couponHelper");
+const { round2 } = require("../utils/pricing");
 const createCoupon = async (req, res) => {
   try {
     const {
@@ -233,103 +235,21 @@ const updateCoupon = async (req, res) => {
 };
 
 // Validate / Apply Coupon
-const validateCoupon = async (req, res) => {
+exports.validateCoupon = async (req, res) => {
   try {
-    const { code, email, cartItems } = req.body;
+    const code = String(req.body?.code || "").trim();
+    if (!code) return res.status(400).json({ message: "Please enter a coupon code." });
 
-    if (!code || !email || !Array.isArray(cartItems) || cartItems.length === 0) {
-      return res.status(400).json({
-        message: "Coupon code, email and cart items are required.",
-      });
-    }
+    // Cart aur prices DB se. Frontend ki bheji price ignore
+    const items = await loadPricedCart(req.user._id);
+    if (!items.length) return res.status(400).json({ message: "Your cart is empty." });
 
-    const normalizedCode = code.trim().toUpperCase();
-    const normalizedEmail = email.trim().toLowerCase();
+    const result = await computeCouponDiscount({ code, userId: req.user._id, items });
+    if (result.error) return res.status(400).json({ message: result.error });
 
-    const coupon = await Coupon.findOne({
-      code: normalizedCode,
-    });
+    const { coupon, couponDiscount, eligibleSubtotal, remainingUses } = result;
 
-    if (!coupon) {
-      return res.status(404).json({
-        message: "Invalid coupon code.",
-      });
-    }
-
-    if (!coupon.isActive) {
-      return res.status(400).json({
-        message: "This coupon is inactive.",
-      });
-    }
-
-    if (new Date(coupon.expiryDate) <= new Date()) {
-      return res.status(400).json({
-        message: "This coupon has expired.",
-      });
-    }
-
-    // Check how many times this email has already used the coupon
-    const usage = await CouponUsage.findOne({
-      coupon: coupon._id,
-      email: normalizedEmail,
-    });
-
-    const currentUsageCount = usage?.usageCount || 0;
-
-    if (currentUsageCount >= coupon.usageLimitPerEmail) {
-      return res.status(400).json({
-        message: "You have reached the usage limit for this coupon.",
-      });
-    }
-
-    /*
-      applicableProducts empty = coupon applies to ALL products.
-      Otherwise discount applies only to selected products.
-    */
-
-    let eligibleSubtotal = 0;
-
-    for (const item of cartItems) {
-      const productId = String(item.productId);
-      const quantity = Number(item.quantity) || 0;
-      const price = Number(item.price) || 0;
-
-      if (quantity <= 0 || price < 0) continue;
-
-      const isEligible =
-        coupon.applicableProducts.length === 0 ||
-        coupon.applicableProducts.some(
-          (id) => String(id) === productId
-        );
-
-      if (isEligible) {
-        eligibleSubtotal += price * quantity;
-      }
-    }
-
-    if (eligibleSubtotal <= 0) {
-      return res.status(400).json({
-        message: "This coupon does not apply to the products in your cart.",
-      });
-    }
-
-    let discountAmount = 0;
-
-    if (coupon.discountType === "percentage") {
-      discountAmount =
-        eligibleSubtotal * (coupon.discountValue / 100);
-    } else {
-      discountAmount = coupon.discountValue;
-    }
-
-    // Discount can never exceed eligible subtotal
-    discountAmount = Math.min(discountAmount, eligibleSubtotal);
-
-    const finalEligibleSubtotal =
-      eligibleSubtotal - discountAmount;
-
-    res.status(200).json({
-      message: "Coupon applied successfully.",
+    res.json({
       coupon: {
         id: coupon._id,
         code: coupon.code,
@@ -338,21 +258,15 @@ const validateCoupon = async (req, res) => {
         discountValue: coupon.discountValue,
       },
       eligibleSubtotal,
-      discountAmount,
-      finalEligibleSubtotal,
-      remainingUses:
-        coupon.usageLimitPerEmail - currentUsageCount,
+      discountAmount: couponDiscount,
+      finalEligibleSubtotal: round2(eligibleSubtotal - couponDiscount),
+      remainingUses, // null = koi had nahi
     });
-  } catch (error) {
-    console.error("Validate coupon error:", error);
-
-    res.status(500).json({
-      message: "Failed to validate coupon.",
-      error: error.message,
-    });
+  } catch (err) {
+    console.error("❌ Validate coupon error:", err.message);
+    res.status(500).json({ message: "Could not validate coupon. Please try again." });
   }
 };
-
 // Delete Coupon
 const deleteCoupon = async (req, res) => {
   try {
