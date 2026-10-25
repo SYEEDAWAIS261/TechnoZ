@@ -235,7 +235,7 @@ const updateCoupon = async (req, res) => {
 };
 
 // Validate / Apply Coupon
-exports.validateCoupon = async (req, res) => {
+const validateCoupon = async (req, res) => {
   try {
     const code = String(req.body?.code || "").trim();
     if (!code) return res.status(400).json({ message: "Please enter a coupon code." });
