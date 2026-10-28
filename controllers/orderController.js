@@ -2,7 +2,7 @@
 const Order = require('../models/Order');
 const { computeCouponDiscount, claimCouponUsage, releaseCouponUsage } = require('../utils/couponHelper');
 const { round2 } = require('../utils/pricing');
-const sendEmail = require('../utils/sendEmail');
+const { sendOrderConfirmationEmail } = require('../utils/orderEmails');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
 const moment = require('moment');
@@ -105,141 +105,10 @@ if (built.error) return res.status(400).json({ message: built.error });
     // 4. Cart khali karein
     await Cart.deleteMany({ user: req.user.id });
 
-    // Neeche wala email code in variables ko use karta hai
-const subTotalItems = order.subtotal;
-const shippingCost = order.shippingCost;
-const finalTotal = order.total;
-
-       // 🚀 5. SEND SUCCESS RESPONSE IMMEDIATELY
+    // 5. Response foran, email background mein (fail ho to order par asar nahi)
     res.status(201).json(order);
     req.app.get("io")?.emit("order:new"); // Admin panel ko signal
-
-    // 🚀 6. BACKGROUND EMAIL PROCESSING (Fire and Forget)
-    const sendBackgroundEmail = async () => {
-      try {
-        const user = await User.findById(req.user.id);
-        if (!user?.email) return;
-
-        const populatedOrder = await Order.findById(order._id).populate('products.productId');
-
-        // Calculations for Email
-        const totalOriginalPrice = populatedOrder.products.reduce((acc, item) =>
-          acc + ((item.originalPriceAtOrder || item.priceAtOrder) * item.quantity), 0
-        );
-        const savings = totalOriginalPrice - subTotalItems;
-
-        const productList = populatedOrder.products.map((item) => {
-          const baseName = item.productName || item.productId?.name || item.productId?.brand || "Product";
-          const variation = item.selectedVariation;
-
-const variationParts = [
-  variation?.ram,
-  variation?.storage,
-].filter(Boolean);
-
-const variationText =
-  variationParts.length > 0
-    ? variationParts.join(" / ")
-    : variation?.label || "";
-
-const productName = variationText
-  ? `${baseName} (${variationText})`
-  : baseName;
-          const originalPrice = (item.originalPriceAtOrder || item.priceAtOrder).toFixed(2);
-          const hasDiscount = (item.originalPriceAtOrder || 0) > item.priceAtOrder;
-
-          return `
-  <li style="margin-bottom: 12px; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; list-style: none;">
-    <span style="font-weight: 600; color: #2d3748;">
-      ${baseName}
-    </span><br/>
-
-    ${
-      item.selectedVariation?.ram
-        ? `<span style="font-size: 13px; color: #718096;">RAM: ${item.selectedVariation.ram}</span><br/>`
-        : ""
-    }
-
-    ${
-      item.selectedVariation?.storage
-        ? `<span style="font-size: 13px; color: #718096;">Storage: ${item.selectedVariation.storage}</span><br/>`
-        : ""
-    }
-
-    <span style="font-size: 13px; color: #718096;">
-      Qty: ${item.quantity}
-    </span> —
-
-    ${
-      hasDiscount
-        ? `<span style="text-decoration: line-through; color: #a0aec0; font-size: 12px; margin-right: 5px;">
-            AED ${originalPrice}
-          </span>`
-        : ""
-    }
-
-    <strong style="color: #198754;">
-      AED ${item.priceAtOrder.toFixed(2)}
-    </strong>
-  </li>`;
-        }).join("");
-
-        const emailContent = `
-          <div style="font-family: 'Segoe UI', Arial, sans-serif; background:#f4f4f7; padding:30px;">
-            <div style="max-width:650px; margin:0 auto; background:#ffffff; padding:30px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.08);">
-              <div style="text-align:center; margin-bottom:25px;">
-                <h1 style="color:#198754; margin:0;">🎉 Congratulations!</h1>
-             ${savings > 0 ? `
-              <p style="color:#4a5568; font-size:16px; margin-top:8px;">
-                You just saved <strong>AED ${savings.toFixed(2)}</strong> on your order!
-              </p>
-              ` : ""}
-              </div>
-              <div style="text-align:center; margin-bottom:25px;">
-                <h1 style="color:#2d3748; margin:0;">🛍️ Thank You for Your Order!</h1>
-                <p style="color:#718096; font-size:14px; margin-top:8px;">Your order has been successfully confirmed.</p>
-              </div>
-              <p style="font-size:15px; color:#2d3748;">Hi <strong>${user.name || "Customer"}</strong>,</p>
-              <p style="font-size:15px; color:#4a5568;">We are processing your order and will notify you once it ships. Below is a summary of your purchase:</p>
-              <div style="background:#f9fafb; padding:20px; border-radius:8px; margin-top:20px; border: 1px solid #e2e8f0;">
-              <p style="font-size:13px; color:#718096; margin:0 0 12px 0;"><strong>Order ID:</strong> ${order.orderNumber}</p>
-                <h3 style="color:#2d3748; margin:0 0 15px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">📦 Order Summary</h3>
-                <table width="100%" style="font-size: 14px; color: #4a5568; border-collapse: collapse;">
-                  <tr><td style="padding: 5px 0;">Items Subtotal:</td><td style="text-align: right; padding: 5px 0;">AED ${subTotalItems.toFixed(2)}</td></tr>
-                  <tr><td style="padding: 5px 0;">Shipping Fee:</td><td style="text-align: right; padding: 5px 0;">AED ${Number(shippingCost).toFixed(2)}</td></tr>
-                  <tr><td style="padding: 15px 0 5px 0; font-size: 18px; font-weight: bold; color: #2d3748; border-top: 2px solid #edf2f7;">Grand Total:</td><td style="padding: 15px 0 5px 0; font-size: 18px; font-weight: bold; color: #198754; text-align: right; border-top: 2px solid #edf2f7;">AED ${finalTotal.toFixed(2)}</td></tr>
-                </table>
-                <p style="font-size:13px; margin:12px 0 0 0; color:#718096;"><strong>Payment Method:</strong> ${paymentMethod}</p>
-                <div style="text-align: center; margin-top: 20px;">
-                  <a href="https://ai-ecommerce-4a2c6.web.app/orders" style="display:inline-block; padding:12px 25px; background:#198754; color:white; text-decoration:none; border-radius:6px; font-size:14px; font-weight: bold;">Track Your Order Details</a>
-                </div>
-              </div>
-              <div style="margin-top:25px;">
-                <h3 style="color:#2d3748; margin-bottom:10px;">🚚 Shipping Address</h3>
-                <p style="font-size:15px; color:#4a5568; line-height:1.7;">
-                  ${shippingAddress?.fullName}<br/>${shippingAddress?.street}<br/>
-                  ${shippingAddress?.city}, ${shippingAddress?.state || ""} ${shippingAddress?.postalCode || ""}<br/>${shippingAddress?.country}
-                </p>
-              </div>
-              <div style="margin-top:25px;">
-                <h3 style="color:#2d3748; margin-bottom:10px;">🛒 Items in Your Order</h3>
-                <ul style="font-size:15px; color:#4a5568; line-height:1.7; padding-left:20px;">${productList}</ul>
-              </div>
-              <p style="font-size:14px; color:#718096; margin-top:30px;"><em>This is an automated generated email. Please do not reply to this email.</em></p>
-              <p style="font-size:15px; color:#2d3748; margin-top:25px;">Best Regards,<br/><strong>TechnoZ Team</strong></p>
-            </div>
-            <p style="text-align:center; font-size:12px; color:#a0aec0; margin-top:15px;">© ${new Date().getFullYear()} TechnoZ. All rights reserved.</p>
-          </div>`;
-
-        await sendEmail(user.email, "🛒 Order Confirmation", emailContent);
-        console.log("✅ Confirmation email sent in background");
-      } catch (err) {
-        console.error("❌ Background email processing failed:", err.message);
-      }
-    };
-
-    // Trigger background process without awaiting it
-    sendBackgroundEmail();
+    sendOrderConfirmationEmail(order._id);
 
   } catch (err) {
     console.error("❌ Error creating order:", err.message);

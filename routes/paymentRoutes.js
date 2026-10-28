@@ -15,7 +15,7 @@ const {
   validateShippingAddress,
 } = require("../utils/orderBuilder");
 const { computeCouponDiscount, claimCouponUsage, releaseCouponUsage } = require("../utils/couponHelper");
-
+const { sendOrderConfirmationEmail } = require("../utils/orderEmails");
 const round2 = (n) => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
@@ -274,18 +274,13 @@ router.post("/confirm", auth, async (req, res) => {
       });
     }
 
-    // Coupon ka istemal +1 (fail ho to order par asar na pade)
-    try {
-      await recordCouponUsage({ code: couponCode, userId: session.metadata.userId });
-    } catch (couponErr) {
-      console.error("⚠️ Coupon usage not recorded:", sessionId, couponErr.message);
-    }
 
     // 7. Cart khali
     await Cart.deleteMany({ user: session.metadata.userId });
 
     res.json({ message: "Stripe order confirmed", order });
     req.app.get("io")?.emit("order:new"); // Admin panel ko signal
+    sendOrderConfirmationEmail(order._id); // Stripe customer ko bhi email
   } catch (error) {
     console.error("!!! CRITICAL STRIPE BACKEND ERROR !!!", error);
     res.status(500).json({ error: "Order confirmation failed. Please contact support." });
