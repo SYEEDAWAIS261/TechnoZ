@@ -2,7 +2,7 @@
 const Order = require('../models/Order');
 const { computeCouponDiscount, claimCouponUsage, releaseCouponUsage } = require('../utils/couponHelper');
 const { round2 } = require('../utils/pricing');
-const { sendOrderConfirmationEmail } = require('../utils/orderEmails');
+const { sendOrderConfirmationEmail, sendOrderDeliveredEmail } = require('../utils/orderEmails');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
 const moment = require('moment');
@@ -197,7 +197,8 @@ exports.updateOrderStatus = async (req, res) => {
       await releaseStock(toRestockItems(order));
       await releaseCouponUsage({ code: order.couponCode, userId: order.userId }).catch(() => {});
     }
-
+// Thank you + review email: sirf Delivered par, sirf ek dafa
+    if (status === "Delivered") sendOrderDeliveredEmail(updatedOrder._id);
     res.json({ message: "Order status updated", order: updatedOrder });
   } catch (err) {
     console.error("❌ Error in updateOrderStatus:", err.message);

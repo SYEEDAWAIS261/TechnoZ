@@ -176,5 +176,162 @@ const sendOrderConfirmationEmail = async (orderId) => {
     console.error('❌ Order confirmation email failed:', String(orderId), err.message);
   }
 };
+// ─────────────────────────────────────────────────────────────
+// Delivered: "Thank you + review" email (sirf ek dafa, sirf Delivered par)
+// ─────────────────────────────────────────────────────────────
 
-module.exports = { sendOrderConfirmationEmail };
+// Har product ka apna "Write a review" button (ek product order mein do dafa ho to ek hi button)
+const reviewItemRow = (item) => {
+  const p = item.productId || {};
+  const name = item.productName || p.name || 'Product';
+  const img = imgUrl(item.productImage || p.image);
+  const v = item.selectedVariation || {};
+  const variant = [v.ram && `RAM ${v.ram}`, v.storage && `SSD ${v.storage}`].filter(Boolean).join(' · ') || '';
+  const link = p.slug || p._id
+    ? `${CLIENT_URL}/product/${encodeURIComponent(p.slug || p._id)}?review=1#reviews`
+    : `${CLIENT_URL}/products`;
+
+  return `
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+    style="margin-bottom:14px;border:1px solid #eef2f6;border-radius:14px;">
+    <tr><td style="padding:14px;">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>
+        ${img ? `<td width="76" valign="middle">
+          <img src="${esc(img)}" width="68" height="68" alt="" style="display:block;width:68px;height:68px;object-fit:contain;border-radius:12px;background:#f5f6f8;border:0;">
+        </td>` : ''}
+        <td valign="middle" style="padding-left:${img ? '14px' : '0'};">
+          <div style="font-size:14px;font-weight:600;color:#1e293b;line-height:1.4;">${esc(name)}</div>
+          ${variant ? `<div style="font-size:12px;color:#94a3b8;margin-top:4px;">${esc(variant)}</div>` : ''}
+        </td>
+      </tr></table>
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top:12px;"><tr>
+        <td align="center">
+          <a href="${esc(link)}" style="display:block;background:${ACCENT};color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 18px;border-radius:10px;">
+            &#9733; Share your experience
+          </a>
+        </td>
+      </tr></table>
+    </td></tr>
+  </table>`;
+};
+
+const buildDeliveredHtml = (order, user) => {
+  const ref = order.orderNumber || order.trackingId || String(order._id).slice(-6).toUpperCase();
+  const customer = esc(user.name || user.username || order.shippingAddress?.fullName || 'there');
+  const deliveredOn = new Date(order.deliveredAt || Date.now())
+    .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Ek hi product do lines mein ho to button ek
+  const seen = new Set();
+  const items = (order.products || []).filter((it) => {
+    const id = String(it.productId?._id || it.productId || it.productName);
+    if (seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+
+  return `<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your TechnoZ order has been delivered</title>
+<style>
+  @media (max-width:600px){
+    .px{padding-left:20px!important;padding-right:20px!important}
+    .h1{font-size:22px!important}
+  }
+</style></head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:${FONT};color:#334155;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your order #${esc(ref)} has been delivered. We'd love to hear what you think.</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td align="center" style="padding:28px 12px;">
+<table width="600" cellpadding="0" cellspacing="0" role="presentation"
+  style="max-width:600px;width:100%;border:1px solid #e8eef4;border-radius:16px;overflow:hidden;">
+
+  <!-- Header -->
+  <tr><td class="px" style="background:${BAND};padding:26px 36px 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>
+      <td><a href="${CLIENT_URL}" style="text-decoration:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">TECHNO<span style="color:${ACCENT};">Z</span></a></td>
+      <td align="right" style="font-size:12px;color:#7c93ab;">#${esc(ref)}</td>
+    </tr></table>
+    <div style="display:inline-block;margin-top:24px;background:#ffffff;color:#3f8f6b;font-size:12px;font-weight:700;letter-spacing:.6px;padding:6px 12px;border-radius:999px;">
+      &#10003; DELIVERED ON ${esc(deliveredOn.toUpperCase())}
+    </div>
+    <div class="h1" style="font-size:26px;font-weight:700;color:#1e293b;margin-top:14px;">Thank you for shopping with TechnoZ</div>
+    <div style="font-size:15px;color:#5f7489;margin-top:8px;line-height:1.7;">
+      Dear ${customer}, your order has been delivered. Thank you for placing your trust in us.
+      We hope your new device serves you well for years to come.
+    </div>
+  </td></tr>
+
+  <!-- Review ask -->
+  <tr><td class="px" style="padding:28px 36px 8px;">
+    <div style="font-size:17px;font-weight:700;color:#1e293b;">How was your experience?</div>
+    <div style="font-size:14px;color:#64748b;margin-top:8px;line-height:1.7;">
+      We would be grateful if you could take a minute to leave an honest review of the product
+      and of our service, from ordering to delivery. Your feedback helps other customers choose
+      with confidence and helps us keep improving.
+    </div>
+  </td></tr>
+
+  <!-- Products -->
+  <tr><td class="px" style="padding:16px 36px 8px;">
+    <div style="font-size:12px;font-weight:600;color:#94a3b8;letter-spacing:1px;margin-bottom:12px;">
+      ${items.length > 1 ? 'REVIEW YOUR PRODUCTS' : 'REVIEW YOUR PRODUCT'}
+    </div>
+    ${items.map(reviewItemRow).join('')}
+  </td></tr>
+
+  <!-- Help -->
+  <tr><td class="px" style="padding:8px 36px 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f8fafc;border-radius:12px;">
+      <tr><td style="padding:16px 20px;font-size:13px;color:#64748b;line-height:1.7;">
+        Something not right? Our team is here to help. Message us on
+        <a href="${waLink}" style="color:${ACCENT};text-decoration:none;font-weight:600;">WhatsApp</a>
+        or reply to <a href="mailto:${SUPPORT_EMAIL}" style="color:${ACCENT};text-decoration:none;font-weight:600;">${esc(SUPPORT_EMAIL)}</a>.
+        Returns are accepted within 14 days of delivery from
+        <a href="${CLIENT_URL}/profile?tab=orders" style="color:${ACCENT};text-decoration:none;font-weight:600;">My Orders</a>.
+      </td></tr>
+    </table>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td class="px" align="center" style="background:#fafbfc;border-top:1px solid #eef2f6;padding:22px 36px;font-size:12px;color:#94a3b8;line-height:1.9;">
+    With thanks, the TechnoZ team<br>
+    <a href="${CLIENT_URL}/products" style="color:#64748b;text-decoration:none;">Shop</a> &middot;
+    <a href="${CLIENT_URL}/profile?tab=orders" style="color:#64748b;text-decoration:none;">My Orders</a> &middot;
+    <a href="${CLIENT_URL}/contact" style="color:#64748b;text-decoration:none;">Contact</a><br>
+    TechnoZ UAE &middot; Al-Ain, Abu Dhabi, United Arab Emirates<br>
+    You received this email because your TechnoZ order was delivered. &copy; ${new Date().getFullYear()} TechnoZ
+  </td></tr>
+
+</table></td></tr></table>
+</body></html>`;
+};
+
+// Sirf ek dafa: reviewEmailSentAt ko atomically "claim" karte hain.
+// Admin status Delivered -> Shipped -> Delivered kare, ya do admin ek saath, tab bhi email ek hi jata hai.
+// Kabhi throw nahi karta.
+const sendOrderDeliveredEmail = async (orderId) => {
+  try {
+    const claimed = await Order.findOneAndUpdate(
+      { _id: orderId, status: 'Delivered', reviewEmailSentAt: null },
+      { $set: { reviewEmailSentAt: new Date() } },
+      { new: true }
+    ).populate('products.productId', 'name slug image');
+    if (!claimed) return; // Delivered nahi, ya pehle bhej chuke
+
+    const user = await User.findById(claimed.userId).select('name username email');
+    if (!user?.email) return;
+
+    const ref = claimed.orderNumber || claimed.trackingId || '';
+    await sendEmail(
+      user.email,
+      `Your order #${ref} has been delivered | Thank you from TechnoZ`,
+      buildDeliveredHtml(claimed, user)
+    );
+  } catch (err) {
+    console.error('❌ Delivered email failed:', String(orderId), err.message);
+    // Fail ho to dobara koshish ka mauqa rahe
+    await Order.updateOne({ _id: orderId }, { $set: { reviewEmailSentAt: null } }).catch(() => {});
+  }
+};
+module.exports = { sendOrderConfirmationEmail, sendOrderDeliveredEmail };

@@ -67,6 +67,7 @@ total: { type: Number, required: true },
 
   // Important Timestamps
   deliveredAt: { type: Date },
+  reviewEmailSentAt: { type: Date, default: null },
   cancelledAt: { type: Date },
   cancelledBy: { type: String, enum: ['customer', 'admin'] },
   statusUpdatedAt: { type: Date, default: Date.now },
