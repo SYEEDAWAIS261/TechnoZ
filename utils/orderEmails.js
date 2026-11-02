@@ -25,6 +25,22 @@ const waLink = `https://wa.me/${SUPPORT_WHATSAPP.replace(/\D/g, '')}`;
 const label = (t) =>
   `<div style="font-size:12px;font-weight:600;color:#94a3b8;letter-spacing:1px;">${t}</div>`;
 
+// Asli logo (Cloudinary URL yahan paste karein)
+const LOGO_URL = process.env.EMAIL_LOGO_URL || 'https://res.cloudinary.com/dgvdsynya/image/upload/v1793614549/technoz/media/1793614548388-logo.png';
+
+// Email ke liye: PNG (Gmail/Outlook sab mein), retina sharp, fixed 160x40, logo left side par
+const emailLogo = (u) =>
+  /res\.cloudinary\.com\/.+\/image\/upload\//.test(u)
+    ? u.replace('/image/upload/', '/image/upload/f_png,w_320,h_80,c_pad,g_west,b_transparent/')
+    : u;
+
+// Logo na ho to purana text wala logo
+const logoHtml = () => `<a href="${CLIENT_URL}" style="text-decoration:none;">${
+  /^https?:\/\//.test(LOGO_URL)
+    ? `<img src="${esc(emailLogo(LOGO_URL))}" width="160" height="40" alt="TechnoZ" style="display:block;width:160px;height:40px;border:0;outline:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">`
+    : `<span style="font-size:19px;font-weight:800;font-style:italic;color:#334155;">TECHNO<span style="color:${ACCENT};">Z</span></span>`
+}</a>`;
+
 const itemRow = (item) => {
   const name = item.productName || item.productId?.name || 'Product';
   const v = item.selectedVariation || {};
@@ -91,7 +107,7 @@ const buildHtml = (order, user) => {
   <!-- Header -->
   <tr><td class="px" style="background:${BAND};padding:26px 36px 30px;">
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>
-      <td><a href="${CLIENT_URL}" style="text-decoration:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">TECHNO<span style="color:${ACCENT};">Z</span></a></td>
+      <td>${logoHtml()}</td>
       <td align="right" style="font-size:12px;color:#7c93ab;">#${esc(ref)}</td>
     </tr></table>
     <div class="h1" style="font-size:26px;font-weight:700;color:#1e293b;margin-top:26px;">Thanks, your order is confirmed</div>
@@ -249,7 +265,7 @@ const buildDeliveredHtml = (order, user) => {
   <!-- Header -->
   <tr><td class="px" style="background:${BAND};padding:26px 36px 30px;">
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>
-      <td><a href="${CLIENT_URL}" style="text-decoration:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">TECHNO<span style="color:${ACCENT};">Z</span></a></td>
+     <td>${logoHtml()}</td>
       <td align="right" style="font-size:12px;color:#7c93ab;">#${esc(ref)}</td>
     </tr></table>
     <div style="display:inline-block;margin-top:24px;background:#ffffff;color:#3f8f6b;font-size:12px;font-weight:700;letter-spacing:.6px;padding:6px 12px;border-radius:999px;">
