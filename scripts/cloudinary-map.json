@@ -1,0 +1,1262 @@
+{
+  "/uploads/articles/1769333158321-article 1.jpg": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605343/technoz/articles/1769333158321-article-1.jpg",
+    "publicId": "technoz/articles/1769333158321-article-1",
+    "bytes": 42602,
+    "width": 1344,
+    "height": 768
+  },
+  "/uploads/articles/1769358901552-article of lenovo yoga i9.jfif": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605344/technoz/articles/1769358901552-article-of-lenovo-yoga-i9.jpg",
+    "publicId": "technoz/articles/1769358901552-article-of-lenovo-yoga-i9",
+    "bytes": 5887,
+    "width": 250,
+    "height": 201
+  },
+  "/uploads/articles/1771155136000-gaming Laptop.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605346/technoz/articles/1771155136000-gaming-laptop.webp",
+    "publicId": "technoz/articles/1771155136000-gaming-laptop",
+    "bytes": 77990,
+    "width": 1280,
+    "height": 720
+  },
+  "/uploads/articles/1775995710664-Lenovo ThinkPad X1.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605347/technoz/articles/1775995710664-lenovo-thinkpad-x1.png",
+    "publicId": "technoz/articles/1775995710664-lenovo-thinkpad-x1",
+    "bytes": 108515,
+    "width": 584,
+    "height": 584
+  },
+  "/uploads/articles/1790700114580-Ideapad-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605349/technoz/articles/1790700114580-ideapad-7.webp",
+    "publicId": "technoz/articles/1790700114580-ideapad-7",
+    "bytes": 97282,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/articles/1791002406443-Outlet.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605352/technoz/articles/1791002406443-outlet.png",
+    "publicId": "technoz/articles/1791002406443-outlet",
+    "bytes": 469584,
+    "width": 1080,
+    "height": 607
+  },
+  "/uploads/deals/1790572912648-Slide2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605353/technoz/deals/1790572912648-slide2.webp",
+    "publicId": "technoz/deals/1790572912648-slide2",
+    "bytes": 77990,
+    "width": 1280,
+    "height": 720
+  },
+  "/uploads/deals/1790575720064-Offer.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605354/technoz/deals/1790575720064-offer.webp",
+    "publicId": "technoz/deals/1790575720064-offer",
+    "bytes": 277436,
+    "width": 1672,
+    "height": 941
+  },
+  "/uploads/deals/1791027202119-Idea-slim-offer.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605355/technoz/deals/1791027202119-idea-slim-offer.webp",
+    "publicId": "technoz/deals/1791027202119-idea-slim-offer",
+    "bytes": 157160,
+    "width": 1536,
+    "height": 864
+  },
+  "/uploads/media/asus-1-mv6f82gliqjg.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605356/technoz/media/asus-1-mv6f82gliqjg.webp",
+    "publicId": "technoz/media/asus-1-mv6f82gliqjg",
+    "bytes": 34882,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-2-mv6f82givim2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605357/technoz/media/asus-2-mv6f82givim2.webp",
+    "publicId": "technoz/media/asus-2-mv6f82givim2",
+    "bytes": 31356,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-3-mv6f82gfk3si.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605357/technoz/media/asus-3-mv6f82gfk3si.webp",
+    "publicId": "technoz/media/asus-3-mv6f82gfk3si",
+    "bytes": 35302,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-4-mv6f82gdi8ax.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605358/technoz/media/asus-4-mv6f82gdi8ax.webp",
+    "publicId": "technoz/media/asus-4-mv6f82gdi8ax",
+    "bytes": 33132,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-5-mv6f82gdqjmi.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605359/technoz/media/asus-5-mv6f82gdqjmi.webp",
+    "publicId": "technoz/media/asus-5-mv6f82gdqjmi",
+    "bytes": 39882,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-6-mv6f82gczges.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605360/technoz/media/asus-6-mv6f82gczges.webp",
+    "publicId": "technoz/media/asus-6-mv6f82gczges",
+    "bytes": 17286,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/asus-logo-mv6f82go31h5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605361/technoz/media/asus-logo-mv6f82go31h5.webp",
+    "publicId": "technoz/media/asus-logo-mv6f82go31h5",
+    "bytes": 3092,
+    "width": 320,
+    "height": 320
+  },
+  "/uploads/media/asus-main-mv6f82gm6mbs.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605361/technoz/media/asus-main-mv6f82gm6mbs.webp",
+    "publicId": "technoz/media/asus-main-mv6f82gm6mbs",
+    "bytes": 24268,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/media/deal-background-mv6fcflv17ht.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605363/technoz/media/deal-background-mv6fcflv17ht.png",
+    "publicId": "technoz/media/deal-background-mv6fcflv17ht",
+    "bytes": 1194455,
+    "width": 2171,
+    "height": 724
+  },
+  "/uploads/media/gaming-mv6fcmsqfzo4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605364/technoz/media/gaming-mv6fcmsqfzo4.webp",
+    "publicId": "technoz/media/gaming-mv6fcmsqfzo4",
+    "bytes": 40080,
+    "width": 1998,
+    "height": 1125
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae-mv6f90b3bktj.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605365/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae-mv6f90b3bk.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae-mv6f90b3bk",
+    "bytes": 123672,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae2-mv6f90az6n17.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605366/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae2-mv6f90az6.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae2-mv6f90az6",
+    "bytes": 136728,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae3-mv6f90asgp0t.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605367/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae3-mv6f90asg.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae3-mv6f90asg",
+    "bytes": 74892,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae4-mv6f90amk21k.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605368/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae4-mv6f90amk.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae4-mv6f90amk",
+    "bytes": 126618,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae5-mv6f90akjic7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605368/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae5-mv6f90akj.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae5-mv6f90akj",
+    "bytes": 62906,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae6-mv6f90ahqndv.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605369/technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae6-mv6f90ahq.webp",
+    "publicId": "technoz/media/hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-uae6-mv6f90ahq",
+    "bytes": 84420,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/hp-zbook-1-mv6f8jrlk5iy.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605370/technoz/media/hp-zbook-1-mv6f8jrlk5iy.webp",
+    "publicId": "technoz/media/hp-zbook-1-mv6f8jrlk5iy",
+    "bytes": 77544,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-2-mv6f8jrgga2w.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605371/technoz/media/hp-zbook-2-mv6f8jrgga2w.webp",
+    "publicId": "technoz/media/hp-zbook-2-mv6f8jrgga2w",
+    "bytes": 22418,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-3-mv6f8jrqvo6m.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605372/technoz/media/hp-zbook-3-mv6f8jrqvo6m.webp",
+    "publicId": "technoz/media/hp-zbook-3-mv6f8jrqvo6m",
+    "bytes": 14326,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-4-mv6f8jrdilmf.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605373/technoz/media/hp-zbook-4-mv6f8jrdilmf.webp",
+    "publicId": "technoz/media/hp-zbook-4-mv6f8jrdilmf",
+    "bytes": 76558,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-5-mv6f8jrbmwx0.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605373/technoz/media/hp-zbook-5-mv6f8jrbmwx0.webp",
+    "publicId": "technoz/media/hp-zbook-5-mv6f8jrbmwx0",
+    "bytes": 69194,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-6-mv6f8jralu0j.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605374/technoz/media/hp-zbook-6-mv6f8jralu0j.webp",
+    "publicId": "technoz/media/hp-zbook-6-mv6f8jralu0j",
+    "bytes": 31932,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-7-mv6f8jr94amn.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605375/technoz/media/hp-zbook-7-mv6f8jr94amn.webp",
+    "publicId": "technoz/media/hp-zbook-7-mv6f8jr94amn",
+    "bytes": 62658,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-8-mv6f8jr715y7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605376/technoz/media/hp-zbook-8-mv6f8jr715y7.webp",
+    "publicId": "technoz/media/hp-zbook-8-mv6f8jr715y7",
+    "bytes": 78908,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/hp-zbook-main-mv6f8jrjejlw.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605377/technoz/media/hp-zbook-main-mv6f8jrjejlw.webp",
+    "publicId": "technoz/media/hp-zbook-main-mv6f8jrjejlw",
+    "bytes": 102930,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/media/idea-slim-offer-mv6f9prnfomf.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605377/technoz/media/idea-slim-offer-mv6f9prnfomf.webp",
+    "publicId": "technoz/media/idea-slim-offer-mv6f9prnfomf",
+    "bytes": 157160,
+    "width": 1536,
+    "height": 864
+  },
+  "/uploads/media/ideapad-1-mv6f9psar95r.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605378/technoz/media/ideapad-1-mv6f9psar95r.webp",
+    "publicId": "technoz/media/ideapad-1-mv6f9psar95r",
+    "bytes": 88104,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-2-mv6f9ps76mft.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605379/technoz/media/ideapad-2-mv6f9ps76mft.webp",
+    "publicId": "technoz/media/ideapad-2-mv6f9ps76mft",
+    "bytes": 88988,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-3-mv6f9ps4ro6y.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605380/technoz/media/ideapad-3-mv6f9ps4ro6y.webp",
+    "publicId": "technoz/media/ideapad-3-mv6f9ps4ro6y",
+    "bytes": 70244,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-4-mv6f9ps382zs.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605381/technoz/media/ideapad-4-mv6f9ps382zs.webp",
+    "publicId": "technoz/media/ideapad-4-mv6f9ps382zs",
+    "bytes": 18934,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-5-mv6f9ps0vwp5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605381/technoz/media/ideapad-5-mv6f9ps0vwp5.webp",
+    "publicId": "technoz/media/ideapad-5-mv6f9ps0vwp5",
+    "bytes": 36340,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-6-mv6f9prvl3fz.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605383/technoz/media/ideapad-6-mv6f9prvl3fz.webp",
+    "publicId": "technoz/media/ideapad-6-mv6f9prvl3fz",
+    "bytes": 110130,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-7-mv6f9prsvadl.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605383/technoz/media/ideapad-7-mv6f9prsvadl.webp",
+    "publicId": "technoz/media/ideapad-7-mv6f9prsvadl",
+    "bytes": 97282,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideapad-main-mv6f9psg8onn.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605384/technoz/media/ideapad-main-mv6f9psg8onn.webp",
+    "publicId": "technoz/media/ideapad-main-mv6f9psg8onn",
+    "bytes": 95974,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/ideaslim3main-mv92u98s35ye.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605385/technoz/media/ideaslim3main-mv92u98s35ye.webp",
+    "publicId": "technoz/media/ideaslim3main-mv92u98s35ye",
+    "bytes": 80556,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/media/lenovo-thinkpad-x1-mv6fa8abzrds.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605386/technoz/media/lenovo-thinkpad-x1-mv6fa8abzrds.png",
+    "publicId": "technoz/media/lenovo-thinkpad-x1-mv6fa8abzrds",
+    "bytes": 108515,
+    "width": 584,
+    "height": 584
+  },
+  "/uploads/media/lenovo2-mv6fa8a9548s.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605387/technoz/media/lenovo2-mv6fa8a9548s.webp",
+    "publicId": "technoz/media/lenovo2-mv6fa8a9548s",
+    "bytes": 48340,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovo3-mv6fa8a54lf4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605388/technoz/media/lenovo3-mv6fa8a54lf4.webp",
+    "publicId": "technoz/media/lenovo3-mv6fa8a54lf4",
+    "bytes": 47114,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovo4-mv6fak2cpfta.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605389/technoz/media/lenovo4-mv6fak2cpfta.webp",
+    "publicId": "technoz/media/lenovo4-mv6fak2cpfta",
+    "bytes": 53854,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovo5-mv6fa8a40hhw.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605389/technoz/media/lenovo5-mv6fa8a40hhw.webp",
+    "publicId": "technoz/media/lenovo5-mv6fa8a40hhw",
+    "bytes": 87098,
+    "width": 1350,
+    "height": 913
+  },
+  "/uploads/media/lenovo6-mv6fa8a1f3j3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605390/technoz/media/lenovo6-mv6fa8a1f3j3.webp",
+    "publicId": "technoz/media/lenovo6-mv6fa8a1f3j3",
+    "bytes": 13216,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovo7-mv6fa8a1ug87.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605391/technoz/media/lenovo7-mv6fa8a1ug87.webp",
+    "publicId": "technoz/media/lenovo7-mv6fa8a1ug87",
+    "bytes": 6908,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovo8-mv6fa8a0pkjh.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605392/technoz/media/lenovo8-mv6fa8a0pkjh.webp",
+    "publicId": "technoz/media/lenovo8-mv6fa8a0pkjh",
+    "bytes": 49994,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/lenovomain-mv6fa8a9f4ye.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605392/technoz/media/lenovomain-mv6fa8a9f4ye.webp",
+    "publicId": "technoz/media/lenovomain-mv6fa8a9f4ye",
+    "bytes": 45928,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/media/loq1-mv6f7la0k49l.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605393/technoz/media/loq1-mv6f7la0k49l.webp",
+    "publicId": "technoz/media/loq1-mv6f7la0k49l",
+    "bytes": 98138,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq2-mv6f7l9yfxnk.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605394/technoz/media/loq2-mv6f7l9yfxnk.webp",
+    "publicId": "technoz/media/loq2-mv6f7l9yfxnk",
+    "bytes": 109674,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq3-mv6f7l9wmhfy.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605395/technoz/media/loq3-mv6f7l9wmhfy.webp",
+    "publicId": "technoz/media/loq3-mv6f7l9wmhfy",
+    "bytes": 60710,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq4-mv6f7l9u2ngt.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605396/technoz/media/loq4-mv6f7l9u2ngt.webp",
+    "publicId": "technoz/media/loq4-mv6f7l9u2ngt",
+    "bytes": 50504,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq5-mv6f7l9ismpm.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605396/technoz/media/loq5-mv6f7l9ismpm.webp",
+    "publicId": "technoz/media/loq5-mv6f7l9ismpm",
+    "bytes": 34426,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq6-mv6f7l9e7z3e.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605397/technoz/media/loq6-mv6f7l9e7z3e.webp",
+    "publicId": "technoz/media/loq6-mv6f7l9e7z3e",
+    "bytes": 80446,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq7-mv6f7l9darow.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605398/technoz/media/loq7-mv6f7l9darow.webp",
+    "publicId": "technoz/media/loq7-mv6f7l9darow",
+    "bytes": 21208,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loq8-mv6f7l9agph4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605399/technoz/media/loq8-mv6f7l9agph4.webp",
+    "publicId": "technoz/media/loq8-mv6f7l9agph4",
+    "bytes": 19154,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/loqmain-mv6f7la9vbtc.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605400/technoz/media/loqmain-mv6f7la9vbtc.webp",
+    "publicId": "technoz/media/loqmain-mv6f7la9vbtc",
+    "bytes": 238926,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/offer-mv6fd563jlo9.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605400/technoz/media/offer-mv6fd563jlo9.webp",
+    "publicId": "technoz/media/offer-mv6fd563jlo9",
+    "bytes": 277436,
+    "width": 1672,
+    "height": 941
+  },
+  "/uploads/media/omnibbok-14-front-fold-mv6f90af0oun.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605401/technoz/media/omnibbok-14-front-fold-mv6f90af0oun.webp",
+    "publicId": "technoz/media/omnibbok-14-front-fold-mv6f90af0oun",
+    "bytes": 111110,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/media/outlet-mv6fc7b6vpoi.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605402/technoz/media/outlet-mv6fc7b6vpoi.png",
+    "publicId": "technoz/media/outlet-mv6fc7b6vpoi",
+    "bytes": 469584,
+    "width": 1080,
+    "height": 607
+  },
+  "/uploads/media/promotions-mv6fbcfwyz5e.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605403/technoz/media/promotions-mv6fbcfwyz5e.png",
+    "publicId": "technoz/media/promotions-mv6fbcfwyz5e",
+    "bytes": 1786240,
+    "width": 1536,
+    "height": 1024
+  },
+  "/uploads/media/slide2-mv6fay6zfw31.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605404/technoz/media/slide2-mv6fay6zfw31.webp",
+    "publicId": "technoz/media/slide2-mv6fay6zfw31",
+    "bytes": 77990,
+    "width": 1280,
+    "height": 720
+  },
+  "/uploads/media/yoga-main-mv6fbrpy3u1g.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605405/technoz/media/yoga-main-mv6fbrpy3u1g.webp",
+    "publicId": "technoz/media/yoga-main-mv6fbrpy3u1g",
+    "bytes": 86862,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/media/yoga1-mv6fbrpvksxv.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605406/technoz/media/yoga1-mv6fbrpvksxv.webp",
+    "publicId": "technoz/media/yoga1-mv6fbrpvksxv",
+    "bytes": 92142,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga2-mv6fbrpsa7bg.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605406/technoz/media/yoga2-mv6fbrpsa7bg.webp",
+    "publicId": "technoz/media/yoga2-mv6fbrpsa7bg",
+    "bytes": 70518,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga3-mv6fbrphvgx4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605407/technoz/media/yoga3-mv6fbrphvgx4.webp",
+    "publicId": "technoz/media/yoga3-mv6fbrphvgx4",
+    "bytes": 116006,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga4-mv6fbrp8ipea.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605408/technoz/media/yoga4-mv6fbrp8ipea.webp",
+    "publicId": "technoz/media/yoga4-mv6fbrp8ipea",
+    "bytes": 117886,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga5-mv6fbrp75ymr.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605409/technoz/media/yoga5-mv6fbrp75ymr.webp",
+    "publicId": "technoz/media/yoga5-mv6fbrp75ymr",
+    "bytes": 74696,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga6-mv6fbrp4scm1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605410/technoz/media/yoga6-mv6fbrp4scm1.webp",
+    "publicId": "technoz/media/yoga6-mv6fbrp4scm1",
+    "bytes": 92400,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga7-mv6fbrp4nrwd.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605411/technoz/media/yoga7-mv6fbrp4nrwd.webp",
+    "publicId": "technoz/media/yoga7-mv6fbrp4nrwd",
+    "bytes": 46048,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/media/yoga8-mv6fbroz3rip.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605412/technoz/media/yoga8-mv6fbroz3rip.webp",
+    "publicId": "technoz/media/yoga8-mv6fbroz3rip",
+    "bytes": 136538,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/products/1788862617995-Untitled design.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605412/technoz/products/1788862617995-untitled-design.webp",
+    "publicId": "technoz/products/1788862617995-untitled-design",
+    "bytes": 982526,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862618024-Untitled design (1).webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605413/technoz/products/1788862618024-untitled-design-1.webp",
+    "publicId": "technoz/products/1788862618024-untitled-design-1",
+    "bytes": 444992,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862618035-Untitled design (5).webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605414/technoz/products/1788862618035-untitled-design-5.webp",
+    "publicId": "technoz/products/1788862618035-untitled-design-5",
+    "bytes": 290534,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862760034-Untitled design (3).webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605415/technoz/products/1788862760034-untitled-design-3.webp",
+    "publicId": "technoz/products/1788862760034-untitled-design-3",
+    "bytes": 501696,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862760039-Untitled design.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605416/technoz/products/1788862760039-untitled-design.webp",
+    "publicId": "technoz/products/1788862760039-untitled-design",
+    "bytes": 982526,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862760048-Untitled design.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605417/technoz/products/1788862760048-untitled-design.webp",
+    "publicId": "technoz/products/1788862760048-untitled-design",
+    "bytes": 982526,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788862760054-Untitled design (5).webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605418/technoz/products/1788862760054-untitled-design-5.webp",
+    "publicId": "technoz/products/1788862760054-untitled-design-5",
+    "bytes": 290534,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/products/1788868789714-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605419/technoz/products/1788868789714-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1788868789714-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 123672,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1788868789717-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605420/technoz/products/1788868789717-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1788868789717-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 136728,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1788868789723-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605421/technoz/products/1788868789723-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1788868789723-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 126618,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1788868789725-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605422/technoz/products/1788868789725-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1788868789725-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 62906,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1788937890046-loq3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605423/technoz/products/1788937890046-loq3.webp",
+    "publicId": "technoz/products/1788937890046-loq3",
+    "bytes": 60710,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533306-LOQmain.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605424/technoz/products/1789020533306-loqmain.webp",
+    "publicId": "technoz/products/1789020533306-loqmain",
+    "bytes": 238926,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533315-loq1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605424/technoz/products/1789020533315-loq1.webp",
+    "publicId": "technoz/products/1789020533315-loq1",
+    "bytes": 98138,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533316-loq2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605425/technoz/products/1789020533316-loq2.webp",
+    "publicId": "technoz/products/1789020533316-loq2",
+    "bytes": 109674,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533319-loq3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605426/technoz/products/1789020533319-loq3.webp",
+    "publicId": "technoz/products/1789020533319-loq3",
+    "bytes": 60710,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533320-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605427/technoz/products/1789020533320-5.webp",
+    "publicId": "technoz/products/1789020533320-5",
+    "bytes": 34426,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533320-loq4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605428/technoz/products/1789020533320-loq4.webp",
+    "publicId": "technoz/products/1789020533320-loq4",
+    "bytes": 50504,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533321-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605429/technoz/products/1789020533321-6.webp",
+    "publicId": "technoz/products/1789020533321-6",
+    "bytes": 80446,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789020533321-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605429/technoz/products/1789020533321-7.webp",
+    "publicId": "technoz/products/1789020533321-7",
+    "bytes": 21208,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789126131411-Lenovomain.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605430/technoz/products/1789126131411-lenovomain.webp",
+    "publicId": "technoz/products/1789126131411-lenovomain",
+    "bytes": 45928,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1789126131412-lenovo2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605431/technoz/products/1789126131412-lenovo2.webp",
+    "publicId": "technoz/products/1789126131412-lenovo2",
+    "bytes": 48340,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1789539656140-Yoga_main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605432/technoz/products/1789539656140-yoga-main.webp",
+    "publicId": "technoz/products/1789539656140-yoga-main",
+    "bytes": 86862,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/products/1789539656142-yoga1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605433/technoz/products/1789539656142-yoga1.webp",
+    "publicId": "technoz/products/1789539656142-yoga1",
+    "bytes": 92142,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789539656145-yoga2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605434/technoz/products/1789539656145-yoga2.webp",
+    "publicId": "technoz/products/1789539656145-yoga2",
+    "bytes": 70518,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789539656146-yoga4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605435/technoz/products/1789539656146-yoga4.webp",
+    "publicId": "technoz/products/1789539656146-yoga4",
+    "bytes": 117886,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789539656148-yoga5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605436/technoz/products/1789539656148-yoga5.webp",
+    "publicId": "technoz/products/1789539656148-yoga5",
+    "bytes": 74696,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789539656150-yoga7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605437/technoz/products/1789539656150-yoga7.webp",
+    "publicId": "technoz/products/1789539656150-yoga7",
+    "bytes": 46048,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789539656151-yoga8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605438/technoz/products/1789539656151-yoga8.webp",
+    "publicId": "technoz/products/1789539656151-yoga8",
+    "bytes": 136538,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/products/1789539656153-yoga6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605439/technoz/products/1789539656153-yoga6.webp",
+    "publicId": "technoz/products/1789539656153-yoga6",
+    "bytes": 92400,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1789715978643-Asus-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605440/technoz/products/1789715978643-asus-main.webp",
+    "publicId": "technoz/products/1789715978643-asus-main",
+    "bytes": 24268,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978644-Asus-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605440/technoz/products/1789715978644-asus-1.webp",
+    "publicId": "technoz/products/1789715978644-asus-1",
+    "bytes": 34882,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978644-Asus-2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605441/technoz/products/1789715978644-asus-2.webp",
+    "publicId": "technoz/products/1789715978644-asus-2",
+    "bytes": 31356,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978648-Asus-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605442/technoz/products/1789715978648-asus-3.webp",
+    "publicId": "technoz/products/1789715978648-asus-3",
+    "bytes": 35302,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978649-Asus-4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605443/technoz/products/1789715978649-asus-4.webp",
+    "publicId": "technoz/products/1789715978649-asus-4",
+    "bytes": 33132,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978649-Asus-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605444/technoz/products/1789715978649-asus-5.webp",
+    "publicId": "technoz/products/1789715978649-asus-5",
+    "bytes": 39882,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789715978650-Asus-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605445/technoz/products/1789715978650-asus-6.webp",
+    "publicId": "technoz/products/1789715978650-asus-6",
+    "bytes": 17286,
+    "width": 800,
+    "height": 800
+  },
+  "/uploads/products/1789904932575-HP ZBook-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605445/technoz/products/1789904932575-hp-zbook-main.webp",
+    "publicId": "technoz/products/1789904932575-hp-zbook-main",
+    "bytes": 27562,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932576-HP ZBook-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605446/technoz/products/1789904932576-hp-zbook-1.webp",
+    "publicId": "technoz/products/1789904932576-hp-zbook-1",
+    "bytes": 22198,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932577-HP ZBook-2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605447/technoz/products/1789904932577-hp-zbook-2.webp",
+    "publicId": "technoz/products/1789904932577-hp-zbook-2",
+    "bytes": 7306,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932583-HP ZBook-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605448/technoz/products/1789904932583-hp-zbook-3.webp",
+    "publicId": "technoz/products/1789904932583-hp-zbook-3",
+    "bytes": 2866,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932584-HP ZBook-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605449/technoz/products/1789904932584-hp-zbook-6.webp",
+    "publicId": "technoz/products/1789904932584-hp-zbook-6",
+    "bytes": 21236,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932585-HP ZBook-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605450/technoz/products/1789904932585-hp-zbook-7.webp",
+    "publicId": "technoz/products/1789904932585-hp-zbook-7",
+    "bytes": 9272,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932585-HP ZBook-8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605450/technoz/products/1789904932585-hp-zbook-8.webp",
+    "publicId": "technoz/products/1789904932585-hp-zbook-8",
+    "bytes": 17198,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1789904932586-HP ZBook-9.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605451/technoz/products/1789904932586-hp-zbook-9.webp",
+    "publicId": "technoz/products/1789904932586-hp-zbook-9",
+    "bytes": 24242,
+    "width": 573,
+    "height": 430
+  },
+  "/uploads/products/1790229213766-Ideapad-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605452/technoz/products/1790229213766-ideapad-6.webp",
+    "publicId": "technoz/products/1790229213766-ideapad-6",
+    "bytes": 110130,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790229213770-Ideapad-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605453/technoz/products/1790229213770-ideapad-7.webp",
+    "publicId": "technoz/products/1790229213770-ideapad-7",
+    "bytes": 97282,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790576937166-HP ZBook-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605454/technoz/products/1790576937166-hp-zbook-main.webp",
+    "publicId": "technoz/products/1790576937166-hp-zbook-main",
+    "bytes": 102930,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937170-HP ZBook-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605455/technoz/products/1790576937170-hp-zbook-1.webp",
+    "publicId": "technoz/products/1790576937170-hp-zbook-1",
+    "bytes": 77544,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937175-HP ZBook-2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605456/technoz/products/1790576937175-hp-zbook-2.webp",
+    "publicId": "technoz/products/1790576937175-hp-zbook-2",
+    "bytes": 22418,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937177-HP ZBook-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605457/technoz/products/1790576937177-hp-zbook-3.webp",
+    "publicId": "technoz/products/1790576937177-hp-zbook-3",
+    "bytes": 14326,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937178-HP ZBook-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605457/technoz/products/1790576937178-hp-zbook-5.webp",
+    "publicId": "technoz/products/1790576937178-hp-zbook-5",
+    "bytes": 69194,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937182-HP ZBook-8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605458/technoz/products/1790576937182-hp-zbook-8.webp",
+    "publicId": "technoz/products/1790576937182-hp-zbook-8",
+    "bytes": 78908,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937191-HP ZBook-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605459/technoz/products/1790576937191-hp-zbook-6.webp",
+    "publicId": "technoz/products/1790576937191-hp-zbook-6",
+    "bytes": 31932,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790576937193-HP ZBook-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605460/technoz/products/1790576937193-hp-zbook-7.webp",
+    "publicId": "technoz/products/1790576937193-hp-zbook-7",
+    "bytes": 62658,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381468-HP ZBook-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605461/technoz/products/1790582381468-hp-zbook-main.webp",
+    "publicId": "technoz/products/1790582381468-hp-zbook-main",
+    "bytes": 102930,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381475-HP ZBook-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605461/technoz/products/1790582381475-hp-zbook-1.webp",
+    "publicId": "technoz/products/1790582381475-hp-zbook-1",
+    "bytes": 77544,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381485-HP ZBook-8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605462/technoz/products/1790582381485-hp-zbook-8.webp",
+    "publicId": "technoz/products/1790582381485-hp-zbook-8",
+    "bytes": 78908,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381490-HP ZBook-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605463/technoz/products/1790582381490-hp-zbook-6.webp",
+    "publicId": "technoz/products/1790582381490-hp-zbook-6",
+    "bytes": 31932,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381491-HP ZBook-2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605464/technoz/products/1790582381491-hp-zbook-2.webp",
+    "publicId": "technoz/products/1790582381491-hp-zbook-2",
+    "bytes": 22418,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381492-HP ZBook-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605465/technoz/products/1790582381492-hp-zbook-3.webp",
+    "publicId": "technoz/products/1790582381492-hp-zbook-3",
+    "bytes": 14326,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381493-HP ZBook-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605465/technoz/products/1790582381493-hp-zbook-5.webp",
+    "publicId": "technoz/products/1790582381493-hp-zbook-5",
+    "bytes": 69194,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790582381495-HP ZBook-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605466/technoz/products/1790582381495-hp-zbook-7.webp",
+    "publicId": "technoz/products/1790582381495-hp-zbook-7",
+    "bytes": 62658,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124386-HP ZBook-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605467/technoz/products/1790583124386-hp-zbook-main.webp",
+    "publicId": "technoz/products/1790583124386-hp-zbook-main",
+    "bytes": 102930,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124388-HP ZBook-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605468/technoz/products/1790583124388-hp-zbook-1.webp",
+    "publicId": "technoz/products/1790583124388-hp-zbook-1",
+    "bytes": 77544,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124390-HP ZBook-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605469/technoz/products/1790583124390-hp-zbook-5.webp",
+    "publicId": "technoz/products/1790583124390-hp-zbook-5",
+    "bytes": 69194,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124390-HP ZBook-8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605470/technoz/products/1790583124390-hp-zbook-8.webp",
+    "publicId": "technoz/products/1790583124390-hp-zbook-8",
+    "bytes": 78908,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124391-HP ZBook-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605470/technoz/products/1790583124391-hp-zbook-6.webp",
+    "publicId": "technoz/products/1790583124391-hp-zbook-6",
+    "bytes": 31932,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124392-HP ZBook-2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605472/technoz/products/1790583124392-hp-zbook-2.webp",
+    "publicId": "technoz/products/1790583124392-hp-zbook-2",
+    "bytes": 22418,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124392-HP ZBook-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605473/technoz/products/1790583124392-hp-zbook-3.webp",
+    "publicId": "technoz/products/1790583124392-hp-zbook-3",
+    "bytes": 14326,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790583124394-HP ZBook-7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605473/technoz/products/1790583124394-hp-zbook-7.webp",
+    "publicId": "technoz/products/1790583124394-hp-zbook-7",
+    "bytes": 62658,
+    "width": 3072,
+    "height": 1719
+  },
+  "/uploads/products/1790588300093-Ideapad-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605474/technoz/products/1790588300093-ideapad-main.webp",
+    "publicId": "technoz/products/1790588300093-ideapad-main",
+    "bytes": 95974,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069107-Ideapad-main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605475/technoz/products/1790589069107-ideapad-main.webp",
+    "publicId": "technoz/products/1790589069107-ideapad-main",
+    "bytes": 95974,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069108-Ideapad-1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605476/technoz/products/1790589069108-ideapad-1.webp",
+    "publicId": "technoz/products/1790589069108-ideapad-1",
+    "bytes": 88104,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069110-Ideapad-6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605477/technoz/products/1790589069110-ideapad-6.webp",
+    "publicId": "technoz/products/1790589069110-ideapad-6",
+    "bytes": 110130,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069112-Ideapad-3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605478/technoz/products/1790589069112-ideapad-3.webp",
+    "publicId": "technoz/products/1790589069112-ideapad-3",
+    "bytes": 70244,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069114-Ideapad-5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605478/technoz/products/1790589069114-ideapad-5.webp",
+    "publicId": "technoz/products/1790589069114-ideapad-5",
+    "bytes": 36340,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790589069115-Ideapad-4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605479/technoz/products/1790589069115-ideapad-4.webp",
+    "publicId": "technoz/products/1790589069115-ideapad-4",
+    "bytes": 18934,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1790669467958-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605480/technoz/products/1790669467958-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1790669467958-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 123672,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1790669467962-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605481/technoz/products/1790669467962-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1790669467962-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 136728,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1790669467964-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605482/technoz/products/1790669467964-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1790669467964-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 126618,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1790669467966-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605482/technoz/products/1790669467966-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1790669467966-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 62906,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1790669467968-HP Omnibook X-Flip 14-FM0013DX Laptop Intel Core Ultra 5 16GB RAM UAE6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605484/technoz/products/1790669467968-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-.webp",
+    "publicId": "technoz/products/1790669467968-hp-omnibook-x-flip-14-fm0013dx-laptop-intel-core-ultra-5-16gb-ram-",
+    "bytes": 84420,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1790669467968-Omnibbok 14 front fold.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605484/technoz/products/1790669467968-omnibbok-14-front-fold.webp",
+    "publicId": "technoz/products/1790669467968-omnibbok-14-front-fold",
+    "bytes": 111110,
+    "width": 2560,
+    "height": 2176
+  },
+  "/uploads/products/1791197167976-Yoga_main.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605485/technoz/products/1791197167976-yoga-main.webp",
+    "publicId": "technoz/products/1791197167976-yoga-main",
+    "bytes": 86862,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/products/1791197167977-yoga1.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605486/technoz/products/1791197167977-yoga1.webp",
+    "publicId": "technoz/products/1791197167977-yoga1",
+    "bytes": 92142,
+    "width": 2560,
+    "height": 2560
+  },
+  "/uploads/products/1791197167986-yoga8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605487/technoz/products/1791197167986-yoga8.webp",
+    "publicId": "technoz/products/1791197167986-yoga8",
+    "bytes": 136538,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/products/1791348537238-lenovo2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605488/technoz/products/1791348537238-lenovo2.webp",
+    "publicId": "technoz/products/1791348537238-lenovo2",
+    "bytes": 48340,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537238-Lenovomain.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605488/technoz/products/1791348537238-lenovomain.webp",
+    "publicId": "technoz/products/1791348537238-lenovomain",
+    "bytes": 45928,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537240-Lenovo3.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605489/technoz/products/1791348537240-lenovo3.webp",
+    "publicId": "technoz/products/1791348537240-lenovo3",
+    "bytes": 47114,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537241-Lenovo4.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605490/technoz/products/1791348537241-lenovo4.webp",
+    "publicId": "technoz/products/1791348537241-lenovo4",
+    "bytes": 53854,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537246-Lenovo5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605491/technoz/products/1791348537246-lenovo5.webp",
+    "publicId": "technoz/products/1791348537246-lenovo5",
+    "bytes": 87098,
+    "width": 1350,
+    "height": 913
+  },
+  "/uploads/products/1791348537246-Lenovo8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605491/technoz/products/1791348537246-lenovo8.webp",
+    "publicId": "technoz/products/1791348537246-lenovo8",
+    "bytes": 49994,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537248-Lenovo6.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605493/technoz/products/1791348537248-lenovo6.webp",
+    "publicId": "technoz/products/1791348537248-lenovo6",
+    "bytes": 13216,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791348537248-Lenovo7.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605494/technoz/products/1791348537248-lenovo7.webp",
+    "publicId": "technoz/products/1791348537248-lenovo7",
+    "bytes": 6908,
+    "width": 1707,
+    "height": 1596
+  },
+  "/uploads/products/1791869110338-Lenovo5.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605494/technoz/products/1791869110338-lenovo5.webp",
+    "publicId": "technoz/products/1791869110338-lenovo5",
+    "bytes": 87098,
+    "width": 1350,
+    "height": 913
+  },
+  "/uploads/profile/1782899776505-Z logo-Picsart.jpeg": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605495/technoz/profile/1782899776505-z-logo-picsart.png",
+    "publicId": "technoz/profile/1782899776505-z-logo-picsart",
+    "bytes": 148788,
+    "width": 1376,
+    "height": 768
+  },
+  "/uploads/promotions/1784177143068-promotion.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605496/technoz/promotions/1784177143068-promotion.webp",
+    "publicId": "technoz/promotions/1784177143068-promotion",
+    "bytes": 4534,
+    "width": 167,
+    "height": 300
+  },
+  "/uploads/promotions/1784178666657-ChatGPT_Image_Jul_16,_2026,_10_10_33_AM.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605497/technoz/promotions/1784178666657-chatgpt-image-jul-16-2026-10-10-33-am.png",
+    "publicId": "technoz/promotions/1784178666657-chatgpt-image-jul-16-2026-10-10-33-am",
+    "bytes": 1786240,
+    "width": 1536,
+    "height": 1024
+  },
+  "/uploads/promotions/1785262484097-gaming.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605498/technoz/promotions/1785262484097-gaming.webp",
+    "publicId": "technoz/promotions/1785262484097-gaming",
+    "bytes": 7046,
+    "width": 300,
+    "height": 235
+  },
+  "/uploads/promotions/1785299518842-Promotions.png": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605499/technoz/promotions/1785299518842-promotions.png",
+    "publicId": "technoz/promotions/1785299518842-promotions",
+    "bytes": 1786240,
+    "width": 1536,
+    "height": 1024
+  },
+  "/uploads/promotions/1788852489689-Untitled_design_(2).webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605500/technoz/promotions/1788852489689-untitled-design-2.webp",
+    "publicId": "technoz/promotions/1788852489689-untitled-design-2",
+    "bytes": 457192,
+    "width": 7680,
+    "height": 7680
+  },
+  "/uploads/promotions/1789540397610-yoga8.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605500/technoz/promotions/1789540397610-yoga8.webp",
+    "publicId": "technoz/promotions/1789540397610-yoga8",
+    "bytes": 136538,
+    "width": 1254,
+    "height": 1254
+  },
+  "/uploads/promotions/1789540437885-yoga2.webp": {
+    "url": "https://res.cloudinary.com/dgvdsynya/image/upload/v1793605501/technoz/promotions/1789540437885-yoga2.webp",
+    "publicId": "technoz/promotions/1789540437885-yoga2",
+    "bytes": 70518,
+    "width": 2560,
+    "height": 2560
+  }
+}
