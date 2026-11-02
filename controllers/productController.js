@@ -892,12 +892,31 @@ exports.getTopSellingProducts = async (req, res) => {
       },
       { $unwind: "$productDetails" },
       {
+        // Sale khatam ho chuki ho to discount 0 (model ke toJSON wala rule yahan bhi)
+        $addFields: {
+          saleOver: {
+            $and: [
+              { $ne: [{ $ifNull: ["$productDetails.saleEndsAt", null] }, null] },
+              { $lte: ["$productDetails.saleEndsAt", "$$NOW"] },
+            ],
+          },
+        },
+      },
+      {
         $project: {
           _id: 0,
           totalSold: 1,
-          product: "$productDetails"
-        }
-      }
+          product: {
+            $mergeObjects: [
+              "$productDetails",
+              {
+                discountPercentage: { $cond: ["$saleOver", 0, "$productDetails.discountPercentage"] },
+                discountPrice: { $cond: ["$saleOver", null, "$productDetails.discountPrice"] },
+              },
+            ],
+          },
+        },
+      },
     ]);
 
     res.status(200).json(topProducts);
