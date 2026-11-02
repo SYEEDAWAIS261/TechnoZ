@@ -28,16 +28,22 @@ const label = (t) =>
 // Asli logo (Cloudinary URL yahan paste karein)
 const LOGO_URL = process.env.EMAIL_LOGO_URL || 'https://res.cloudinary.com/dgvdsynya/image/upload/v1793614549/technoz/media/1793614548388-logo.png';
 
-// Email ke liye: PNG (Gmail/Outlook sab mein), retina sharp, fixed 160x40, logo left side par
+// Email ke liye:
+// e_trim = logo ke ird gird ki khali white jagah kaat do
+// e_make_transparent = white background hata do (blue header par white dabba na bane)
+// phir PNG, retina sharp, fixed 220x55, logo left side par
 const emailLogo = (u) =>
   /res\.cloudinary\.com\/.+\/image\/upload\//.test(u)
-    ? u.replace('/image/upload/', '/image/upload/f_png,w_320,h_80,c_pad,g_west,b_transparent/')
+    ? u.replace(
+        '/image/upload/',
+        '/image/upload/e_trim:10/e_make_transparent:15/f_png,w_440,h_110,c_pad,g_west,b_transparent/'
+      )
     : u;
 
 // Logo na ho to purana text wala logo
 const logoHtml = () => `<a href="${CLIENT_URL}" style="text-decoration:none;">${
   /^https?:\/\//.test(LOGO_URL)
-    ? `<img src="${esc(emailLogo(LOGO_URL))}" width="160" height="40" alt="TechnoZ" style="display:block;width:160px;height:40px;border:0;outline:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">`
+    ? `<img src="${esc(emailLogo(LOGO_URL))}" width="220" height="55" alt="TechnoZ" style="display:block;width:220px;height:55px;border:0;outline:none;font-size:19px;font-weight:800;font-style:italic;color:#334155;">`
     : `<span style="font-size:19px;font-weight:800;font-style:italic;color:#334155;">TECHNO<span style="color:${ACCENT};">Z</span></span>`
 }</a>`;
 
