@@ -2,14 +2,18 @@ const mongoose = require("mongoose");
 
 const mediaSchema = new mongoose.Schema(
   {
-    // "/uploads/media/lenovo-loq-15-lq8x2k.webp" — hamesha "/" se shuru
+    // Cloudinary: "https://res.cloudinary.com/<cloud>/image/upload/v.../technoz/media/x.webp"
+    // Purani local: "/uploads/media/x.webp"
     url: { type: String, required: true, unique: true, trim: true },
+    publicId: { type: String, default: "", trim: true }, // Cloudinary ID (delete ke liye)
     filename: { type: String, required: true, trim: true },
     originalName: { type: String, default: "", trim: true },
     mimeType: { type: String, default: "" },
     size: { type: Number, default: 0 }, // bytes
+    width: { type: Number, default: null },
+    height: { type: Number, default: null },
 
-    // Image kis folder mein hai (purani images apne purane folder mein hi rehti hain)
+    // Image kis folder mein hai
     folder: {
       type: String,
       enum: ["media", "products", "deals", "promotions", "articles"],

@@ -1,5 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
+const cloudinary = require("../config/cloudinary");
 const Media = require("../models/Media");
 const Product = require("../models/Product");
 const Deal = require("../models/Deal");
@@ -19,11 +20,33 @@ const IMAGE_TYPES = {
 
 const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-// "uploads/a.webp" aur "/uploads/a.webp" ek hi file hain (articles bina "/" ke save hote thay)
-const normalizeUrl = (url) => "/" + String(url || "").trim().replace(/^\/+/, "");
+const isRemote = (url) => /^https?:\/\//i.test(String(url || "").trim());
+
+// Sirf hamare apne Cloudinary account ki image (kisi aur site ki nahi)
+const isOurCloudinary = (url) =>
+  !!process.env.CLOUDINARY_CLOUD_NAME &&
+  String(url || "").startsWith(`https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`);
+
+// ".../image/upload/f_auto,q_auto/v1730/technoz/products/abc.webp" -> "technoz/products/abc"
+const cloudinaryIdFromUrl = (url) => {
+  const m = String(url || "").match(/\/image\/upload\/(?:[^/]*,[^/]*\/|[a-z]_[^/]+\/)*(?:v\d+\/)?(.+?)(?:\.[a-z0-9]+)?$/i);
+  return m ? decodeURIComponent(m[1]) : "";
+};
+
+// Cloudinary URL se display wali transformations hata kar asli URL (DB mein yehi save ho)
+const stripTransforms = (url) =>
+  String(url).replace(/\/image\/upload\/(?:[^/]*,[^/]*\/|[a-z]_[^/]+\/)+/i, "/image/upload/");
+
+// Local: "uploads/a.webp" aur "/uploads/a.webp" ek hi file hain. Cloudinary URL waisa hi rehta hai.
+const normalizeUrl = (url) => {
+  const u = String(url || "").trim();
+  if (isRemote(u)) return isOurCloudinary(u) ? stripTransforms(u) : u;
+  return "/" + u.replace(/^\/+/, "");
+};
+
 const urlVariants = (url) => {
   const u = normalizeUrl(url);
-  return [u, u.slice(1)];
+  return isRemote(u) ? [u] : [u, u.slice(1)];
 };
 
 // "lenovo-loq-15-lq8x2k9a.webp" -> "lenovo loq 15"
@@ -40,7 +63,8 @@ const clip = (v, max) => String(v || "").trim().slice(0, max);
 // Yeh image kahan kahan use ho rahi hai (featured image + description/content ke andar)
 async function findUsage(url) {
   const variants = urlVariants(url);
-  const inHtml = { $regex: escapeRegex(path.basename(normalizeUrl(url))) };
+  const base = path.basename(normalizeUrl(url).split("?")[0]);
+  const inHtml = { $regex: escapeRegex(base) };
 
   const [products, deals, promotions, articles] = await Promise.all([
     Product.find({
@@ -59,8 +83,15 @@ async function findUsage(url) {
   ];
 }
 
-// File sirf "uploads" folder ke andar se hi delete ho sakti hai
-async function removeFile(url) {
+// Image delete: Cloudinary ho to wahan se, purani local file ho to "uploads" folder se
+async function removeFile(url, publicId = "") {
+  if (isRemote(url)) {
+    if (!isOurCloudinary(url)) return; // kisi aur ki image ko haath nahi lagate
+    const id = publicId || cloudinaryIdFromUrl(url);
+    if (id) await cloudinary.uploader.destroy(id, { resource_type: "image", invalidate: true });
+    return;
+  }
+
   const relative = normalizeUrl(url).replace(/^\/uploads\//, "");
   const abs = path.resolve(UPLOADS_ROOT, relative);
   if (!abs.startsWith(UPLOADS_ROOT + path.sep)) return;
@@ -133,11 +164,39 @@ async function importExistingUploads() {
   return docs.length;
 }
 
-// Form se aaya URL check karta hai: sirf hamari "uploads" ki asli image qubool.
-// File disk par hai magar library mein nahi, to library mein register kar deta hai.
+// Form se aaya URL check karta hai: sirf hamari apni image qubool (Cloudinary ya purani "uploads").
 async function ensureMedia(url) {
   if (!url || typeof url !== "string") return null;
 
+  // ☁️ Cloudinary
+  if (isRemote(url) && isOurCloudinary(url)) {
+    const clean = normalizeUrl(url);
+    if (await Media.exists({ url: clean })) return clean;
+
+    const publicId = cloudinaryIdFromUrl(clean);
+    const folder = publicId.split("/")[1];
+    if (!publicId || !FOLDERS.includes(folder)) return null;
+
+    const filename = path.basename(clean);
+    await Media.updateOne(
+      { url: clean },
+      {
+        $setOnInsert: {
+          url: clean,
+          publicId,
+          filename,
+          originalName: filename,
+          mimeType: IMAGE_TYPES[path.extname(filename).toLowerCase()] || "",
+          folder,
+          title: clip(humanize(filename), 160),
+        },
+      },
+      { upsert: true }
+    );
+    return clean;
+  }
+
+  // 📁 Purani local image
   const clean = normalizeUrl(url.replace(/^https?:\/\/[^/]+/i, "")); // full URL -> path
   if (!clean.startsWith("/uploads/")) return null;
   if (await Media.exists({ url: clean })) return clean;
@@ -171,23 +230,30 @@ async function ensureMedia(url) {
   return clean;
 }
 
+// Uploaded file ka URL: Cloudinary ho to poora URL, warna purana "/uploads/<folder>/<file>"
+const fileUrl = (f, folder) =>
+  isRemote(f?.path) ? f.path : `/uploads/${folder}/${f?.filename}`;
+
 // Products/Deals/Promotions/Articles ke forms se upload hui files ko library mein daalta hai
 async function registerUploads(files = [], folder, metaFor = () => ({})) {
   if (!files.length) return;
 
   const ops = files.map((f, i) => {
     const meta = metaFor(f, i) || {};
-    const url = `/uploads/${folder}/${f.filename}`;
+    const url = fileUrl(f, folder);
     return {
       updateOne: {
         filter: { url },
         update: {
           $setOnInsert: {
             url,
+            publicId: f.publicId || "",
             filename: f.filename,
             originalName: f.originalname,
             mimeType: f.mimetype,
             size: f.size,
+            width: f.width || null,
+            height: f.height || null,
             folder,
             alt: clip(meta.alt, 160),
             title: clip(meta.title, 160) || clip(humanize(f.originalname), 160),
@@ -207,6 +273,9 @@ module.exports = {
   escapeRegex,
   normalizeUrl,
   humanize,
+  isRemote,
+  cloudinaryIdFromUrl,
+  fileUrl,
   findUsage,
   removeFile,
   importExistingUploads,

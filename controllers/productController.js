@@ -8,6 +8,7 @@ const Order = require("../models/Order");
 const Wishlist = require('../models/Wishlist');
 const { ensureMedia, registerUploads } = require('../services/mediaService');
 const { assignSkus } = require('../services/skuService');
+const upload = require('../middleware/upload');
 
 
 // 🧹 Paste kiye gaye description se &nbsp; aur inline styles saaf karta hai
@@ -61,7 +62,7 @@ const buildGallery = async (raw, files = []) => {
   for (const item of list) {
     let url = null;
     if (Number.isInteger(item?.fileIndex) && files[item.fileIndex]) {
-      url = `/uploads/products/${files[item.fileIndex].filename}`;
+      url = upload.fileUrl(files[item.fileIndex], 'products');
       fileMeta[item.fileIndex] = item;
     } else if (item?.url) {
       url = await ensureMedia(item.url);

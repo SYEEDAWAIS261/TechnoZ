@@ -3,6 +3,7 @@ const Media = require("../models/Media");
 const {
   escapeRegex,
   humanize,
+  fileUrl,
   findUsage,
   removeFile,
   importExistingUploads,
@@ -55,7 +56,10 @@ exports.uploadMedia = async (req, res) => {
   try {
     const items = await Media.insertMany(
       files.map((f) => ({
-        url: `/uploads/media/${f.filename}`,
+        url: fileUrl(f, "media"),
+        publicId: f.publicId || "",
+        width: f.width || null,
+        height: f.height || null,
         filename: f.filename,
         originalName: f.originalname,
         mimeType: f.mimetype,
@@ -68,7 +72,7 @@ exports.uploadMedia = async (req, res) => {
     res.status(201).json({ items });
   } catch (err) {
     // DB save fail ho to disk par adhoori files na bachein
-    await Promise.all(files.map((f) => removeFile(`/uploads/media/${f.filename}`).catch(() => {})));
+    await Promise.all(files.map((f) => removeFile(fileUrl(f, "media"), f.publicId).catch(() => {})));
     console.error("uploadMedia error:", err);
     res.status(500).json({ message: "Failed to save uploaded images" });
   }
@@ -127,7 +131,7 @@ exports.deleteMedia = async (req, res) => {
       });
     }
 
-    await removeFile(media.url);
+    await removeFile(media.url, media.publicId);
     await media.deleteOne();
     res.json({ message: "Image deleted" });
   } catch (err) {
