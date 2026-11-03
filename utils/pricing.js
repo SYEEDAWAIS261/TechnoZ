@@ -25,7 +25,11 @@ const getUnitPricing = (product, variationId) => {
   }
 
   const basePrice = Number(product.price) || 0;
-  const discountPercent = Number(product.discountPercentage) || 0;
+
+  // Sale (promotion) khatam ho chuki ho to discount nahi lagega.
+  // Ye check yahin hai taake cart, order aur Stripe sab ek hi price dikhayein.
+  const saleOver = !!product.saleEndsAt && new Date(product.saleEndsAt) <= new Date();
+  const discountPercent = saleOver ? 0 : Number(product.discountPercentage) || 0;
   const varPrice = variation ? Number(variation.price) || 0 : 0;
 
   let originalUnit;
