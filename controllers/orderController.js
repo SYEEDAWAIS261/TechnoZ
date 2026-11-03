@@ -527,7 +527,7 @@ exports.downloadInvoice = async (req, res) => {
 
     let yPosition = tableTop + 20;
     let alternate = false;
-    const rowHeight = 22;
+       const rowHeight = 22; // bina SKU/S/N wali row ki kam az kam unchai
 
     order.products.forEach((item, index) => {
       const product = item.productId;
@@ -561,8 +561,9 @@ exports.downloadInvoice = async (req, res) => {
         serials.length ? `S/N: ${serials.join(', ')}` : null,
       ].filter(Boolean).join('\n');
       doc.font('Helvetica').fontSize(7.5);
-      const idHeight = idLine ? doc.heightOfString(idLine, { width: idWidth, lineGap: 1 }) + 4 : 0;
-      const thisRowHeight = rowHeight + idHeight;
+      const idHeight = idLine ? doc.heightOfString(idLine, { width: idWidth, lineGap: 0.5 }) : 0;
+      // Naam (11pt) + SKU/P/N/S/N lines + neeche 9pt jagah. Khali jagah kam, text wahi.
+      const thisRowHeight = Math.max(rowHeight, 11 + idHeight + 9);
 
       // PAGE BREAK CHECK
       if (yPosition + thisRowHeight > 720) {
@@ -596,14 +597,21 @@ exports.downloadInvoice = async (req, res) => {
 
              if (idLine) {
         doc.font('Helvetica').fontSize(7.5).fillColor('#555')
-          .text(idLine, colX.name, yPosition + 12, { width: idWidth, lineGap: 1 });
+          .text(idLine, colX.name, yPosition + 11, { width: idWidth, lineGap: 0.5 });
       }
 
       yPosition += thisRowHeight;
     });
 
     // ---------------- TOTALS SECTION (right side) ----------------
-    if (yPosition > 650) {
+    // Signature + QR + footer hamesha page ke neeche fixed jagah par hain.
+    // Totals (aur PAID stamp) us jagah se pehle khatam hon, warna naya page.
+    const SIGN_Y = pageHeight - 125;           // signature line (~717)
+    const QR_SIZE = 64;
+    const QR_Y = pageHeight - 172;             // QR ka upar wala kinara (~670)
+    const TOTALS_MAX_START = pageHeight - 265; // is se neeche totals shuru na hon (~577)
+
+    if (yPosition > TOTALS_MAX_START) {
       doc.addPage();
       addWatermark();
       addHeader();
@@ -736,26 +744,15 @@ exports.downloadInvoice = async (req, res) => {
       doc.fillOpacity(1).strokeOpacity(1).fillColor('#000').strokeColor('#000').lineWidth(1);
     }
 
-    // ---------------- SIGNATURE (left side) ----------------
-    // Stamp ho to signature us ke neeche, warna totals ke neeche
-    let signatureY = isPaidOnline ? yPosition + 140 : totalY + 50;
-    if (signatureY > 710) {
-      doc.addPage();
-      addWatermark();
-      addHeader();
-      signatureY = HEADER_BOTTOM + 40;
-    }
+    // ---------------- SIGNATURE (left) + QR (right): page ke neeche fixed ----------------
+    doc.fillOpacity(1).fillColor('#000').fontSize(10).font('Helvetica');
+    doc.text('Signature: ___________________________', 40, SIGN_Y, { lineBreak: false });
 
-    doc.fillColor('#000').fontSize(10).font('Helvetica');
-    doc.text('Signature: ___________________________', 40, signatureY);
-    // QR code: signature ke saamne right side par
-    const qrSize = 70;
-    const qrX = 555 - qrSize;
-    const qrY = Math.max(signatureY - 40, totalY + 22); // Grand Total se na takraye
-    doc.image(qrImage, qrX, qrY, { width: qrSize });
+    const qrX = 555 - QR_SIZE;
+    doc.image(qrImage, qrX, QR_Y, { width: QR_SIZE });
     doc.font('Helvetica').fontSize(7.5).fillColor('#777')
-      .text('Scan to view your orders', qrX - 20, qrY + qrSize + 3, {
-        width: qrSize + 40, align: 'center', lineBreak: false,
+      .text('Scan to view your orders', qrX - 20, QR_Y + QR_SIZE + 3, {
+        width: QR_SIZE + 40, align: 'center', lineBreak: false,
       });
     // ---------------- FOOTER (page ke neeche, center) ----------------
     const footerY = pageHeight - 80;
