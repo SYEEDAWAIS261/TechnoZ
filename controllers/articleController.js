@@ -16,7 +16,9 @@ const resolveArticleImage = async (req) => {
   }
   if (req.body.image) {
     const url = await ensureMedia(req.body.image);
-    return url ? url.slice(1) : null;
+    if (!url) return null;
+    // Full http(s) URL (Cloudinary/library) waisa hi rahe; sirf local path se leading "/" hatao
+    return /^https?:\/\//i.test(url) ? url : url.replace(/^\/+/, '');
   }
   return null;
 };
