@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addProduct, getProducts, getProductMeta, updateProduct, deleteProduct, getProductBySlug, getLimitedProducts, getHighestDiscountProduct, getTopSellingProducts, toggleWishlist  } = require('../controllers/productController');
+const { addProduct, getProducts, getProductMeta, updateProduct, deleteProduct, getProductBySlug, getLimitedProducts, getHighestDiscountProduct, toggleWishlist  } = require('../controllers/productController');
 const auth = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload'); // ✅ fixed path
 const requirePermission = require("../middleware/permissionMiddleware");
@@ -28,8 +28,6 @@ router.get('/', getProducts);
 // Wahi handler, params body se aate hain.
 router.post('/query', getProducts);
 
-// 🆕 Get top 3 best-selling products for banner
-router.get("/top-products", getTopSellingProducts);
 
 router.get("/highest-discount", getHighestDiscountProduct);
 router.post('/wishlist/toggle/:productId', auth, toggleWishlist);

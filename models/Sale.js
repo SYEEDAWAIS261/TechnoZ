@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const dealSchema = new mongoose.Schema(
+const saleSchema = new mongoose.Schema(
   {
-    // SEO essentials
+    // SEO
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
     title: { type: String, required: true, trim: true },
     subtitle: { type: String, trim: true },
@@ -10,32 +10,29 @@ const dealSchema = new mongoose.Schema(
     metaTitle: { type: String, trim: true },
     metaDescription: { type: String, trim: true },
 
-    // Visuals
-    bannerImage: { type: String, required: true },
-    badgeText: { type: String, default: 'DEAL' },
+    // Visuals / theme
+    bannerImage: { type: String },
+    badgeText: { type: String, default: 'BIG SALE' },
+    themeColor: { type: String, default: '#0E7F98' }, // teal default
 
     // Countdown
     startsAt: { type: Date, required: true },
     endsAt: { type: Date, required: true },
+    showCountdown: { type: Boolean, default: true },
 
-    // Linked content
-    ctaText: { type: String, default: 'Shop Now' },
-    ctaLink: { type: String, default: '/products' },
-    secondaryCtaText: { type: String },
-    secondaryCtaLink: { type: String },
+    // Sirf manually selected products (discount wale Outlet mein hi rahenge)
     productIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    discountPercentage: { type: Number, default: 0 },
-    category: { type: String },
 
-    // Admin control
+    // CTA + control
+    ctaText: { type: String, default: 'Shop the Sale' },
+    ctaLink: { type: String, default: '/products' },
     isActive: { type: Boolean, default: true },
     priority: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-dealSchema.methods.isLive = function () {
+saleSchema.methods.isLive = function () {
   const now = Date.now();
   return (
     this.isActive &&
@@ -44,6 +41,6 @@ dealSchema.methods.isLive = function () {
   );
 };
 
-dealSchema.index({ isActive: 1, endsAt: 1 });
+saleSchema.index({ isActive: 1, endsAt: 1 });
 
-module.exports = mongoose.models.Deal || mongoose.model('Deal', dealSchema);
+module.exports = mongoose.models.Sale || mongoose.model('Sale', saleSchema);

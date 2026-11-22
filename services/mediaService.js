@@ -3,7 +3,6 @@ const path = require("path");
 const cloudinary = require("../config/cloudinary");
 const Media = require("../models/Media");
 const Product = require("../models/Product");
-const Deal = require("../models/Deal");
 const Promotion = require("../models/Promotion");
 const Article = require("../models/Article");
 
@@ -66,18 +65,16 @@ async function findUsage(url) {
   const base = path.basename(normalizeUrl(url).split("?")[0]);
   const inHtml = { $regex: escapeRegex(base) };
 
-  const [products, deals, promotions, articles] = await Promise.all([
+  const [products, promotions, articles] = await Promise.all([
     Product.find({
       $or: [{ image: { $in: variants } }, { "images.url": { $in: variants } }, { description: inHtml }],
     }).select("name").lean(),
-    Deal.find({ bannerImage: { $in: variants } }).select("title").lean(),
     Promotion.find({ image: { $in: variants } }).select("title").lean(),
     Article.find({ $or: [{ image: { $in: variants } }, { content: inHtml }] }).select("title").lean(),
   ]);
 
   return [
     ...products.map((d) => ({ type: "product", id: d._id, label: d.name })),
-    ...deals.map((d) => ({ type: "deal", id: d._id, label: d.title })),
     ...promotions.map((d) => ({ type: "promotion", id: d._id, label: d.title })),
     ...articles.map((d) => ({ type: "article", id: d._id, label: d.title })),
   ];

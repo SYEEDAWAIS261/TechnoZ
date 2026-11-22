@@ -870,64 +870,6 @@ exports.getLimitedProducts = async (req, res) => {
   }
 };
 
-// 🆕 Get top 3 best-selling products
-exports.getTopSellingProducts = async (req, res) => {
-  try {
-    const topProducts = await Order.aggregate([
-      { $unwind: "$products" },
-      { 
-        $group: {
-          _id: "$products.productId", // ✅ correct field name
-          totalSold: { $sum: "$products.quantity" },
-        },
-      },
-      { $sort: { totalSold: -1 } },
-      { $limit: 3 },
-      {
-        $lookup: {
-          from: "products",
-          localField: "_id",
-          foreignField: "_id",
-          as: "productDetails"
-        }
-      },
-      { $unwind: "$productDetails" },
-      {
-        // Sale khatam ho chuki ho to discount 0 (model ke toJSON wala rule yahan bhi)
-        $addFields: {
-          saleOver: {
-            $and: [
-              { $ne: [{ $ifNull: ["$productDetails.saleEndsAt", null] }, null] },
-              { $lte: ["$productDetails.saleEndsAt", "$$NOW"] },
-            ],
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          totalSold: 1,
-          product: {
-            $mergeObjects: [
-              "$productDetails",
-              {
-                discountPercentage: { $cond: ["$saleOver", 0, "$productDetails.discountPercentage"] },
-                discountPrice: { $cond: ["$saleOver", null, "$productDetails.discountPrice"] },
-              },
-            ],
-          },
-        },
-      },
-    ]);
-
-    res.status(200).json(topProducts);
-  } catch (error) {
-    console.error("Error fetching top products:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-
 // 🆕 Get product with the highest discount
 exports.getHighestDiscountProduct = async (req, res) => {
   try {
