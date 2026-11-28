@@ -39,25 +39,26 @@ const sendAdminWhatsApp = async (details) => {
         // Hamesha quantity > 0 wale products target karein
         const queryFilter = { quantity: { $gt: 0 } };
         
-        if (searchKeywords.length > 0) {
-            queryFilter.$or = searchKeywords.map(word => ({
-                $or: [
-                    { name: { $regex: word, $options: "i" } },
-                    { brand: { $regex: word, $options: "i" } },
-                    { category: { $regex: word, $options: "i" } }
-                ]
-            }));
-        }
+      if (searchKeywords.length > 0) {
+    queryFilter.$or = searchKeywords.map(word => ({
+        $or: [
+            { name: { $regex: word, $options: "i" } },
+            { brand: { $regex: word, $options: "i" } },
+            { category: { $regex: word, $options: "i" } },
+            { subcategory: { $regex: word, $options: "i" } }
+        ]
+    }));
+}
 
         // Products fetch karein (Agar specific keyword match na ho, toh latest 5 available products utha lein taake out of stock na bole)
         let products = await Product.find(queryFilter)
-            .select("name brand price discountPrice discountPercentage onSale variations quantity -_id")
+            .select("name brand category subcategory price discountPrice discountPercentage onSale variations quantity productAttributes -_id")
             .limit(5);
 
         // AGAR SPECIFIC KEYWORD PAR KOI PRODUCT NA MILE, TOH STORE KE GENERAL AVAILABLE LAPTOPS DIKHAYEIN
         if (products.length === 0 && searchKeywords.length > 0) {
             products = await Product.find({ quantity: { $gt: 0 } })
-                .select("name brand price discountPrice discountPercentage onSale variations quantity -_id")
+               .select("name brand category subcategory price discountPrice discountPercentage onSale variations quantity productAttributes -_id")
                 .limit(5);
         }
 
@@ -75,17 +76,18 @@ const sendAdminWhatsApp = async (details) => {
         ? p.variations.map(v => {
             const vBase = finalSalePrice || p.price;
             const vFinal = vBase + (Number(v.price) || 0);
-            return `- ${v.label}: $${vFinal.toFixed(2)}`;
+            return `- ${v.label}: PKR${vFinal.toFixed(2)}`;
           }).join("\n")
         : "NONE";
 
       return `
 PRODUCT_RECORD
-Category: LAPTOP
+Category: ${p.category}
+Subcategory: ${p.subcategory || "Not specified"}
 Brand: ${p.brand}
 Model: ${p.name}
-StandardBasePrice: $${p.price}
-SaleBasePrice: ${finalSalePrice ? `$${finalSalePrice.toFixed(2)}` : "NONE"}
+StandardBasePrice: PKR${p.price}
+SaleBasePrice: ${finalSalePrice ? `PKR${finalSalePrice.toFixed(2)}` : "NONE"}
 UnitsAvailable: ${p.quantity}
 
 Available_Variations_With_Total_Prices:
@@ -93,7 +95,9 @@ ${variationsData}
 
 RULES:
 - Use ONLY the above numbers.
-- We ONLY sell Laptops.
+- TechnoZ sells the product categories available in the inventory context.
+- Never claim that TechnoZ sells only laptops.
+- Never invent products or specifications.
 `;
     }).join("\n\n")
   : "CURRENT STATUS: Inventory is temporarily updating. Reassure the client warmly and invite them to share their exact requirements or check via WhatsApp (+92 334-9094849).";
@@ -126,7 +130,7 @@ GREETINGS & CASUAL DIALOGUE RULE
 ────────────────────────────
 - If the user says a casual greeting (e.g., "Hey", "Salam", "Hi", "Bhai kaise ho?"), respond warmly and naturally like a real human shop consultant before jumping into inventory. 
 - Example: "Walaikum Assalam! Sab theek thak, aap sunayein? Bataiye, aaj kis tarah ka laptop dekh rahe hain aap?"
-- Do NOT sound like a rigid script on casual chats. Match the user's vibe first, then gently guide them towards our elite laptop collection.
+- Do NOT sound like a rigid script on casual chats. Match the user's vibe first, then gently guide them towards TechnoZ's available technology products.
 
 Immediate conclusion required.
 Deliver the core decision within the first 5 words.
@@ -158,9 +162,9 @@ FINAL PRICE AUTHORITY:
 - Use phrases like: "Total amount (including variation)" or "Final price for this configuration."
 
 2. PRICING FORMAT:
-- "Exclusive Offer: AED[VariationTotal] for the [Variation Label] configuration (Total including Laptop + Upgrade)."
-- If a variation is selected: "Exclusive Offer: AED[VariationTotal] (Previously AED[StandardBasePrice + VariationPrice])."
-- If no variation is selected: "Exclusive Offer: AED[SaleBasePrice] (Previously AED[StandardBasePrice])."
+- "Exclusive Offer: PKR[VariationTotal] for the [Variation Label] configuration (Total including Laptop + Upgrade)."
+- If a variation is selected: "Exclusive Offer: PKR[VariationTotal] (Previously PKR[StandardBasePrice + VariationPrice])."
+- If no variation is selected: "Exclusive Offer: PKR[SaleBasePrice] (Previously PKR[StandardBasePrice])."
 
 3. VALUE REINFORCEMENT:
 - If the discount is significant, reinforce with: "This represents a premium value acquisition for our clients."
@@ -233,7 +237,7 @@ You are a high-value human consultant. Beyond greetings, you must exhibit these 
 - Don't just dump 10 paragraphs instantly. Use conversational fillers for complex tasks: "That's a specific requirement. Give me a moment to cross-reference our latest Grade-A arrivals for you."
 
 5. CULTURAL & LINGUISTIC FLUIDITY:
-- If the user uses "Hinglish/Urdu" (e.g., "Bhai price kya hai?"), respond in kind but keep it elite: "Bhai, is premium model ki current offer AED1200 hai. It’s a stellar deal for Sharjah delivery."
+- If the user uses "Hinglish/Urdu" (e.g., "Bhai price kya hai?"), respond in kind but keep it elite: "Bhai, is premium model ki current offer PKR1200 hai. It’s a stellar deal for Sharjah delivery."
 - Mirroring Language: Use 'InshaAllah', 'Alhamdulillah', 'Namaste', or 'Greetings' ONLY if the user initiates. Do not be a "Religious Bot," be a "Respectful Human."
 
 6. ADMITTING LIMITATIONS (Human Honesty):

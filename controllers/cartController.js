@@ -8,11 +8,16 @@ const addToCart = async (req, res) => {
   const qty = Number(quantity);
 
   try {
-    if (!productId || !qty || qty < 1) {
-      return res.status(400).json({ message: 'Invalid product or quantity' });
+    if (!productId || !Number.isInteger(qty) || qty < 1) {
+      return res.status(400).json({
+        message: 'Quantity must be a positive whole number'
+      });
     }
 
     const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
     // Variation ki price, label aur stock DB se lein, client par bharosa na karein
@@ -168,8 +173,13 @@ const updateCartItemQuantity = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    const product = await Product.findById(cartItem.product);
-if (product) {
+  const product = await Product.findById(cartItem.product);
+
+if (!product) {
+  return res.status(404).json({
+    message: 'Product no longer exists'
+  });
+}
   let limit = Number(product.quantity) || 0;
   const varId = cartItem.selectedVariation?.id;
 
@@ -181,7 +191,6 @@ if (product) {
   if (qty > limit) {
     return res.status(400).json({ message: `Only ${limit} available in stock` });
   }
-}
 
     cartItem.quantity = qty;
     await cartItem.save();

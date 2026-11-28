@@ -66,9 +66,11 @@ exports.createArticle = async (req, res) => {
 // CUSTOM OR AUTO SLUG
 // =========================
 
+const finalTitle = title;
+
 let slug = customSlug?.trim()
   ? createSlug(customSlug)
-  : createSlug(title);
+  : createSlug(finalTitle);
 
 
 // =========================
@@ -136,7 +138,9 @@ if (existing) {
 // 2. Get All Articles (With Pagination & Category Filter)
 exports.getAllArticles = async (req, res) => {
   try {
-    const { page = 1, limit = 9, category } = req.query;
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 9));
+    const { category } = req.query;
     const query = category
   ? { category, status: "published" }
   : { status: "published" };

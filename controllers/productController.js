@@ -84,7 +84,7 @@ exports.addProduct = async (req, res) => {
   condition, processor, partNumber, ram, storage, display,
   quantity, discountPercentage, discountPrice,
   faqs, specifications, variations, keyFeatures,
-  isBannerProduct, bannerTitle, expiryDate,
+  isBannerProduct, bannerTitle, expiryDate, subcategory, productAttributes,
   seoTitle, seoDescription, productTags, focusKeyword, slug: manualSlug,
   productType,
 } = req.body;
@@ -116,7 +116,18 @@ exports.addProduct = async (req, res) => {
     } catch (e) {
       console.error("Specs parsing failed, using empty array");
     }
+// Parse category-specific attributes
+let parsedAttributes = {};
 
+try {
+  parsedAttributes =
+    typeof productAttributes === "string"
+      ? JSON.parse(productAttributes)
+      : productAttributes || {};
+} catch (e) {
+  console.error("Product Attributes parsing failed");
+  parsedAttributes = {};
+}
     let parsedFaqs = [];
     try {
       parsedFaqs = typeof faqs === 'string' ? JSON.parse(faqs) : faqs;
@@ -169,8 +180,9 @@ try {
       slug,
       brand,
       description: cleanDescription(description),
-      price,
       category,
+      subcategory: subcategory || "",
+      productAttributes: parsedAttributes,
             image: finalImages[0]?.url || '',
       images: finalImages,
       processor,
@@ -595,6 +607,24 @@ screenSizeFacet: [
 exports.updateProduct = async (req, res) => {
   try {
     const updateData = { ...req.body };
+    // Parse category-specific attributes during product update
+if (updateData.productAttributes !== undefined) {
+  if (typeof updateData.productAttributes === "string") {
+    try {
+      updateData.productAttributes = JSON.parse(
+        updateData.productAttributes
+      );
+    } catch (e) {
+      console.error("Product Attributes parse error:", e);
+      delete updateData.productAttributes;
+    }
+  }
+}
+
+// Clean subcategory
+if (updateData.subcategory !== undefined) {
+  updateData.subcategory = String(updateData.subcategory).trim();
+}
     // Ye fields sirf promotion set karta hai, form se nahi aate
     delete updateData.saleEndsAt;
     delete updateData.salePromotion;

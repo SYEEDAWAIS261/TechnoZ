@@ -35,6 +35,7 @@ const productSchema = new mongoose.Schema(
     brand: { type: String, required: true }, // required kar diya dropdown ke liye
     description: { type: String, required: true },
     category: { type: String, required: true }, // dropdown ke liye required
+    subcategory: { type: String, default: "", trim: true,},
    price: { type: Number, required: true, default: 0, min: 0 },
     quantity: { type: Number, required: true, default: 0, min: 0 },
     
@@ -42,11 +43,15 @@ const productSchema = new mongoose.Schema(
     type: String,
     default: "14 Days" // Aap default value bhi set kar sakte hain
   },
-  shippingDetails: {
-    type: String,
-    default: "Free in UAE"
-  },
-
+ shippingDetails: {
+  type: String,
+  default: "Shipping details available at checkout",
+},
+comparisonGroup: {
+  type: String,
+  default: "general",
+  index: true
+},
   // Images + SEO Metadata
 image: { type: String },
 
@@ -74,6 +79,11 @@ images: [
         value: { type: String }  
       }
     ],
+    // Flexible category-specific attributes
+productAttributes: {
+  type: mongoose.Schema.Types.Mixed,
+  default: {},
+},
 
     // ✅ FAQs Section
     faqs: [
