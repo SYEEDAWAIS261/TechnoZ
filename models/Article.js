@@ -24,21 +24,11 @@ const articleSchema = new mongoose.Schema({
     required: true
   },
 
-category: {
-  type: String,
-  required: true,
-  trim: true,
-  enum: [
-    'Laptops',
-    'Mobiles',
-    'Gaming',
-    'Accessories',
-    'Tech News',
-    'Buying Guide',
-    'Reviews',
-    'AI & Technology'
-  ]
-},
+  category: {
+    type: String,
+    required: true,
+    enum: ['Laptops', 'Tech News', 'Buying Guide', 'Reviews']
+  },
 
   author: {
     type: String,
@@ -113,11 +103,11 @@ category: {
     default: 0
   },
 
-status: {
-  type: String,
-  enum: ['draft', 'published'],
-  default: 'draft'
-}
+  status: {
+    type: String,
+    enum: ['draft', 'published'],
+    default: 'published'
+  }
 
 }, { timestamps: true });
 
